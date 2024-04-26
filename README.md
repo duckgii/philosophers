@@ -1,2 +1,3 @@
-# phil0sophers
-42subject
+# philosophers
+***
+- 42 3서클 과제 
