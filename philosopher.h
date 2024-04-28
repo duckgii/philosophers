@@ -6,7 +6,7 @@
 /*   By: yeoshin <yeoshin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/28 14:53:20 by yeoshin           #+#    #+#             */
-/*   Updated: 2024/04/28 15:21:08 by yeoshin          ###   ########.fr       */
+/*   Updated: 2024/04/28 15:53:30 by yeoshin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ typedef struct s_arg{
 	int		my_number;
 }	t_arg;
 
+t_arg	*init_av(char *av[]);
 void	*ft_malloc(int size);
+void	*thread_function(void *arg);
 
 #endif

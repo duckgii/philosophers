@@ -1,5 +1,5 @@
 NAME = philosopher
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -g3 -fsanitize=address
 
 SRCS = main.c \
 		utile.c
@@ -14,17 +14,21 @@ make : all
 
 clean :
 	rm -f $(OBJS)
-	make -c ./libft/ clean
+	make -C ./libft/ clean
 
 fclean : 
 	rm -f $(NAME)
-	make -c ./libft/ fclean
+	make -C ./libft/ fclean
+
+re :
+	make fclean
+	make all
 
 ${NAME} : $(LIBFT) $(OBJS)
 	$(CC) $(CFLAGS) -o $@ $^
 
 $(LIBFT) :
-	make -c ./libft/ bonus
+	make -C ./libft/ bonus
 
 $(OBJS) : %.o : %.c
 	$(CC) $(CFLAGS) $(INCLUDE) -c $< -o $@
