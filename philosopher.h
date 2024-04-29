@@ -6,7 +6,7 @@
 /*   By: yeoshin <yeoshin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/28 14:53:20 by yeoshin           #+#    #+#             */
-/*   Updated: 2024/04/28 15:53:30 by yeoshin          ###   ########.fr       */
+/*   Updated: 2024/04/29 12:12:40 by yeoshin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,17 +17,25 @@
 # include "./libft/libft.h"
 # include <pthread.h>
 
-typedef struct s_arg{
-	int		member;
-	int		die;
-	int		eat;
-	int		sleep;
-	int		must_eat;
-	int		my_number;
-}	t_arg;
+typedef struct s_philo{
+	int				die;
+	int				eat_time;
+	int				sleep_time;
+	int				eat_count;
+	int				*left_fork;
+	int				*right_fork;
+	pthread_mutex_t	*mutex;
+}	t_philo;
 
-t_arg	*init_av(char *av[]);
-void	*ft_malloc(int size);
-void	*thread_function(void *arg);
+enum {
+	EMPTY = 1,
+	HAVE,
+};
+
+t_philo			**init_philo(char *av[], pthread_mutex_t *mutex);
+void			*ft_malloc(int size);
+void			*thread_function(void *arg);
+pthread_mutex_t	*mutex_init(void);
+
 
 #endif
