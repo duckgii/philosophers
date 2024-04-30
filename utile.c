@@ -6,17 +6,17 @@
 /*   By: yeoshin <yeoshin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/28 15:05:43 by yeoshin           #+#    #+#             */
-/*   Updated: 2024/04/30 11:49:21 by yeoshin          ###   ########.fr       */
+/*   Updated: 2024/04/30 17:16:55 by yeoshin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosopher.h"
 #include <stdlib.h>
 
-static t_philo			*philosopher_init(char *av[]);
+static t_philo			*philosopher_init(int ac, char *av[]);
 static int				*fork_init(int size);
 
-t_philo	**init_philo(char *av[])
+t_philo	**init_philo(int ac, char *av[])
 {
 	t_philo	**ret;
 	t_philo	*philosopher;
@@ -30,7 +30,7 @@ t_philo	**init_philo(char *av[])
 	left_fork = NULL;
 	while (idx < ft_atoi(av[1]))
 	{
-		philosopher = philosopher_init(av);
+		philosopher = philosopher_init(ac, av);
 		philosopher->left_fork = left_fork;
 		philosopher->right_fork = &(right_fork[idx]);
 		philosopher->philo_num = idx + 1;
@@ -51,24 +51,28 @@ static int	*fork_init(int size)
 	forks = ft_malloc(sizeof(int) * size);
 	while (idx < size)
 	{
-		forks[idx] = HAVE;
+		forks[idx] = UNUSED;
 		idx++;
 	}
 	return (forks);
 }
 
-static t_philo	*philosopher_init(char *av[])
+static t_philo	*philosopher_init(int ac, char *av[])
 {
-	t_philo			*philosopher;
-	//int num = HAVE;
+	t_philo	*philosopher;
+	int		num;
 
+	num = UNUSED;
 	philosopher = ft_malloc(sizeof(t_philo));
 	philosopher->die = ft_atoi(av[2]);
 	philosopher->eat_time = ft_atoi(av[3]);
 	philosopher->sleep_time = ft_atoi(av[4]);
-	philosopher->eat_count = ft_atoi(av[5]);
+	if (ac == 5)
+		philosopher->eat_count = -1;
+	else if (ac == 6)
+		philosopher->eat_count = ft_atoi(av[5]);
 	philosopher->mutex = mutex_init();
-	philosopher->right_fork = NULL;
+	philosopher->right_fork = &num;
 	philosopher->left_fork = NULL;
 	return (philosopher);
 }

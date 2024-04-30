@@ -6,7 +6,7 @@
 /*   By: yeoshin <yeoshin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/26 19:21:57 by yeoshin           #+#    #+#             */
-/*   Updated: 2024/04/30 10:11:06 by yeoshin          ###   ########.fr       */
+/*   Updated: 2024/04/30 17:15:10 by yeoshin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,16 +17,11 @@ static int	thread_end(pthread_t *threads, int count);
 
 int	main(int ac, char *av[])
 {
-	t_philo			**philo;
-	pthread_t		*threads;
-	//pthread_mutex_t	*mutex;
-	int				ret;
+	t_philo		**philo;
+	pthread_t	*threads;
+	int			ret;
 
-	ac = 0;
-	//if (ac != 6)
-	//	return (1);
-	//mutex = mutex_init();
-	philo = init_philo(av);
+	philo = init_philo(ac, av);
 	threads = ft_malloc(sizeof(pthread_t) * ft_atoi(av[1]));
 	if (thread_start(philo, threads, ft_atoi(av[1])))
 		return (1);
@@ -66,6 +61,7 @@ static int	thread_end(pthread_t *threads, int count)
 		res = pthread_join(threads[idx], NULL);
 		if (res != 0)
 		{
+			printf("ldx : %d\n", idx);
 			printf("main thread is failed2\n");
 			return (0);
 		}

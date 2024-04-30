@@ -6,89 +6,126 @@
 /*   By: yeoshin <yeoshin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 11:28:20 by yeoshin           #+#    #+#             */
-/*   Updated: 2024/04/30 11:44:49 by yeoshin          ###   ########.fr       */
+/*   Updated: 2024/04/30 17:24:09 by yeoshin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosopher.h"
 #include <sys/time.h>
-void	get_fork(t_philo	*philo);
-void	get_sleep(t_philo	*philo);
 
-void	*thread_function(void *arg)
+void		philo_eat(t_philo	*philo);
+void		philo_sleep(t_philo	*philo);
+static int	get_fork(int *fork, int num);
+static void	start_eat(t_philo *philo);
+static void	end_eat(t_philo *philo);
+
+void	thread_function(void *arg)
 {
-	t_philo		*philo;
-	int			count = 0;
+	t_philo			*philo;
+	int				count;
 	struct timeval	mytime;
-	//int			i=0;
+	long			time;
 
-	//pthread_mutex_lock(philo->mutex);
-	//while (i < 6)
-	//{
-	//	printf("i : %d\n", i);
-	//	i++;
-	//}
-	//pthread_mutex_unlock(philo->mutex);
-	//printf("philosopher right fork is %d\n", *philo->right_fork);
-	//printf("philosopher left fork is %d\n", *philo->left_fork);
-	//gettimeofday(&mytime, NULL);
-	//printf("now : %d = %d\n", philo->philo_num, mytime.tv_usec);
-	//usleep(100);
-	//gettimeofday(&mytime, NULL);
-	//printf("after : %d = %d\n", philo->philo_num, mytime.tv_usec);
 	philo = (t_philo *)arg;
-	while (count < 5)
+	count = philo->eat_count;
+	if (count == -1)
 	{
-		get_fork(philo);
-		get_sleep(philo);
-		printf("\nphilo_num : %d->%d\n\n", philo->philo_num, count + 1);
-		count++;
+		while (1)
+		{
+			philo_eat(philo);
+			philo_sleep(philo);
+		}
 	}
-	//gettimeofday(&mytime, NULL);
-	//printf("philo %d start!!%d\n", philo->philo_num, mytime.tv_usec);
-	//usleep(200);
-	//gettimeofday(&mytime, NULL);
-	//printf("philo %d end!!%d\n", philo->philo_num, mytime.tv_usec);
-	return (NULL);
+	else
+	{
+		while (count < 5)
+		{
+			philo_eat(philo);
+			philo_sleep(philo);
+			count++;
+		}
+	}
+	gettimeofday(&mytime, NULL);
+	time = (mytime.tv_sec * 1000) + (mytime.tv_usec % 1000000) / 1000;
+	printf("%ld %d died\n", time, philo->philo_num);
+	pthread_mutex_destroy(philo->mutex);
+	//return (NULL);
 }
 
-void	get_fork(t_philo	*philo)
+void	philo_eat(t_philo	*philo)
 {
 	struct timeval	mytime;
+	int				check;
 
-	pthread_mutex_lock(philo->mutex);
-	gettimeofday(&mytime, NULL);
-	printf("philo %d think!!%d\n", philo->philo_num, mytime.tv_usec);
-	while (1)
+	start_eat(philo);
+	check = 0;
+	while (check == 0)
 	{
-		if (*(philo->left_fork) == HAVE)
-		{
-			*(philo->left_fork) = EMPTY;
-			printf("philo %d left_fork!\n", philo->philo_num);
-			break ;
-		}
+		if (philo->philo_num % 2 == 0)
+			check = get_fork(philo->left_fork, philo->philo_num);
+		else
+			check = get_fork(philo->right_fork, philo->philo_num);
 	}
-	while (1)
+	check = 0;
+	while (check == 0)
 	{
-		if (*(philo->right_fork) == HAVE)
-		{
-			*(philo->right_fork) = EMPTY;
-			printf("philo %d right_fork!\n", philo->philo_num);
-			break ;
-		}
+		if (philo->philo_num % 2 == 0)
+			check = get_fork(philo->right_fork, philo->philo_num);
+		else
+			check = get_fork(philo->left_fork, philo->philo_num);
 	}
-	gettimeofday(&mytime, NULL);
-	printf("philo %d start_eat!!%d\n", philo->philo_num, mytime.tv_usec);
-	usleep(100);
-	gettimeofday(&mytime, NULL);
-	printf("philo %d end_eat!!%d\n", philo->philo_num, mytime.tv_usec);
-	*(philo->left_fork) = HAVE;
-	*(philo->right_fork) = HAVE;
+	end_eat(philo);
 	pthread_mutex_unlock(philo->mutex);
 }
 
-void	get_sleep(t_philo	*philo)
+static void	end_eat(t_philo *philo)
 {
-	printf("philo %d sleep!!\n", philo->philo_num);
-	usleep(50);
+	struct timeval	mytime;
+	long			time;
+
+	gettimeofday(&mytime, NULL);
+	time = (mytime.tv_sec * 1000) + (mytime.tv_usec % 1000000) / 1000;
+	printf("%ld %d is eating\n", time, philo->philo_num);
+	usleep(philo->eat_time * 1000);
+	*(philo->left_fork) = UNUSED;
+	*(philo->right_fork) = UNUSED;
+	pthread_mutex_unlock(philo->mutex);
+}
+
+static int	get_fork(int *fork, int num)
+{
+	struct timeval	mytime;
+	long			time;
+
+	if (*fork == UNUSED)
+	{
+		gettimeofday(&mytime, NULL);
+		time = (mytime.tv_sec * 1000) + (mytime.tv_usec % 1000000) / 1000;
+		printf("%ld %d has taken a fork\n", time, num);
+		*fork = USE;
+		return (1);
+	}
+	return (0);
+}
+
+void	philo_sleep(t_philo	*philo)
+{
+	struct timeval	mytime;
+	long			time;
+
+	gettimeofday(&mytime, NULL);
+	time = (mytime.tv_sec * 1000) + (mytime.tv_usec % 1000000) / 1000;
+	printf("%ld %d is sleeping\n", time, philo->philo_num);
+	usleep(philo->sleep_time * 1000);
+}
+
+static void	start_eat(t_philo *philo)
+{
+	struct timeval	mytime;
+	long			time;
+
+	pthread_mutex_lock(philo->mutex);
+	gettimeofday(&mytime, NULL);
+	time = (mytime.tv_sec * 1000) + (mytime.tv_usec % 1000000) / 1000;
+	printf("%ld %d is thinking\n", time, philo->philo_num);
 }
