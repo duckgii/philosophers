@@ -6,7 +6,7 @@
 /*   By: yeoshin <yeoshin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/26 19:21:57 by yeoshin           #+#    #+#             */
-/*   Updated: 2024/04/29 12:27:57 by yeoshin          ###   ########.fr       */
+/*   Updated: 2024/04/30 10:11:06 by yeoshin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,15 +19,16 @@ int	main(int ac, char *av[])
 {
 	t_philo			**philo;
 	pthread_t		*threads;
-	pthread_mutex_t	*mutex;
+	//pthread_mutex_t	*mutex;
 	int				ret;
 
-	if (ac != 6)
-		return (1);
-	mutex = mutex_init();
-	philo = init_philo(av, mutex);
+	ac = 0;
+	//if (ac != 6)
+	//	return (1);
+	//mutex = mutex_init();
+	philo = init_philo(av);
 	threads = ft_malloc(sizeof(pthread_t) * ft_atoi(av[1]));
-	if (thread_start(philo, threads, ft_atoi(av[1])));
+	if (thread_start(philo, threads, ft_atoi(av[1])))
 		return (1);
 	ret = thread_end(threads, ft_atoi(av[1]));
 	if (thread_end(threads, ft_atoi(av[1])))
@@ -46,7 +47,7 @@ static int	thread_start(t_philo **philo, pthread_t *threads, int count)
 		res = pthread_create(&threads[idx], NULL, thread_function, philo[idx]);
 		if (res != 0)
 		{
-			printf("main thread is failed");
+			printf("main thread is failed1\n");
 			return (1);
 		}
 		idx++;
@@ -65,7 +66,7 @@ static int	thread_end(pthread_t *threads, int count)
 		res = pthread_join(threads[idx], NULL);
 		if (res != 0)
 		{
-			printf("main thread is failed");
+			printf("main thread is failed2\n");
 			return (0);
 		}
 		idx++;

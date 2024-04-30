@@ -6,17 +6,17 @@
 /*   By: yeoshin <yeoshin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/28 15:05:43 by yeoshin           #+#    #+#             */
-/*   Updated: 2024/04/29 12:11:51 by yeoshin          ###   ########.fr       */
+/*   Updated: 2024/04/30 11:49:21 by yeoshin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosopher.h"
 #include <stdlib.h>
 
-static t_philo			*philosopher_init(char *av[], pthread_mutex_t *mutex);
+static t_philo			*philosopher_init(char *av[]);
 static int				*fork_init(int size);
 
-t_philo	**init_philo(char *av[], pthread_mutex_t *mutex)
+t_philo	**init_philo(char *av[])
 {
 	t_philo	**ret;
 	t_philo	*philosopher;
@@ -30,9 +30,10 @@ t_philo	**init_philo(char *av[], pthread_mutex_t *mutex)
 	left_fork = NULL;
 	while (idx < ft_atoi(av[1]))
 	{
-		philosopher = philosopher_init(av, mutex);
+		philosopher = philosopher_init(av);
 		philosopher->left_fork = left_fork;
 		philosopher->right_fork = &(right_fork[idx]);
+		philosopher->philo_num = idx + 1;
 		left_fork = &(right_fork[idx]);
 		ret[idx] = philosopher;
 		idx++;
@@ -56,16 +57,17 @@ static int	*fork_init(int size)
 	return (forks);
 }
 
-static t_philo	*philosopher_init(char *av[], pthread_mutex_t *mutex)
+static t_philo	*philosopher_init(char *av[])
 {
 	t_philo			*philosopher;
+	//int num = HAVE;
 
 	philosopher = ft_malloc(sizeof(t_philo));
 	philosopher->die = ft_atoi(av[2]);
 	philosopher->eat_time = ft_atoi(av[3]);
 	philosopher->sleep_time = ft_atoi(av[4]);
 	philosopher->eat_count = ft_atoi(av[5]);
-	philosopher->mutex = mutex;
+	philosopher->mutex = mutex_init();
 	philosopher->right_fork = NULL;
 	philosopher->left_fork = NULL;
 	return (philosopher);
