@@ -6,7 +6,7 @@
 /*   By: yeoshin <yeoshin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 11:28:20 by yeoshin           #+#    #+#             */
-/*   Updated: 2024/04/30 17:24:09 by yeoshin          ###   ########.fr       */
+/*   Updated: 2024/04/30 18:14:35 by yeoshin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,18 +49,23 @@ void	thread_function(void *arg)
 	time = (mytime.tv_sec * 1000) + (mytime.tv_usec % 1000000) / 1000;
 	printf("%ld %d died\n", time, philo->philo_num);
 	pthread_mutex_destroy(philo->mutex);
-	//return (NULL);
+	return (NULL);
 }
 
 void	philo_eat(t_philo	*philo)
 {
 	struct timeval	mytime;
 	int				check;
+	long			time;
 
 	start_eat(philo);
 	check = 0;
 	while (check == 0)
 	{
+		gettimeofday(&mytime, NULL);
+		time = (mytime.tv_sec * 1000) + (mytime.tv_usec % 1000000) / 1000;
+		if (time - philo->start_starve > philo->die)
+			//죽여
 		if (philo->philo_num % 2 == 0)
 			check = get_fork(philo->left_fork, philo->philo_num);
 		else
@@ -69,6 +74,10 @@ void	philo_eat(t_philo	*philo)
 	check = 0;
 	while (check == 0)
 	{
+		gettimeofday(&mytime, NULL);
+		time = (mytime.tv_sec * 1000) + (mytime.tv_usec % 1000000) / 1000;
+		if (time - philo->start_starve > philo->die)
+			//죽여
 		if (philo->philo_num % 2 == 0)
 			check = get_fork(philo->right_fork, philo->philo_num);
 		else
@@ -89,6 +98,9 @@ static void	end_eat(t_philo *philo)
 	usleep(philo->eat_time * 1000);
 	*(philo->left_fork) = UNUSED;
 	*(philo->right_fork) = UNUSED;
+	gettimeofday(&mytime, NULL);
+	time = (mytime.tv_sec * 1000) + (mytime.tv_usec % 1000000) / 1000;
+	philo->start_starve = time;
 	pthread_mutex_unlock(philo->mutex);
 }
 
@@ -116,6 +128,11 @@ void	philo_sleep(t_philo	*philo)
 	gettimeofday(&mytime, NULL);
 	time = (mytime.tv_sec * 1000) + (mytime.tv_usec % 1000000) / 1000;
 	printf("%ld %d is sleeping\n", time, philo->philo_num);
+	if (philo->sleep_time > philo->die)
+	{
+		usleep(philo->die);
+		//죽여
+	}
 	usleep(philo->sleep_time * 1000);
 }
 

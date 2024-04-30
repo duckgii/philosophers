@@ -6,7 +6,7 @@
 /*   By: yeoshin <yeoshin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/28 14:53:20 by yeoshin           #+#    #+#             */
-/*   Updated: 2024/04/30 17:15:00 by yeoshin          ###   ########.fr       */
+/*   Updated: 2024/04/30 17:36:16 by yeoshin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ typedef struct s_philo{
 	int				*left_fork;
 	int				*right_fork;
 	int				philo_num;
+	long			start_starve;
 	pthread_mutex_t	*mutex;
 }	t_philo;
 
