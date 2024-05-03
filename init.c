@@ -6,7 +6,7 @@
 /*   By: yeoshin <yeoshin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 14:27:16 by yeoshin           #+#    #+#             */
-/*   Updated: 2024/05/03 16:57:09 by yeoshin          ###   ########.fr       */
+/*   Updated: 2024/05/03 22:29:37 by yeoshin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,15 +74,25 @@ static t_philo	*philosopher_init(int ac, char *av[])
 
 	num = UNUSED;
 	philosopher = ft_malloc(sizeof(t_philo));
-	philosopher->die = ft_atoi(av[2]);
+	philosopher->die_time = ft_atoi(av[2]);
 	philosopher->eat_time = ft_atoi(av[3]);
 	philosopher->sleep_time = ft_atoi(av[4]);
 	if (ac == 5)
-		philosopher->eat_count = -1;
+		philosopher->must_eat_count = -1;
 	else if (ac == 6)
-		philosopher->eat_count = ft_atoi(av[5]);
+		philosopher->must_eat_count = ft_atoi(av[5]);
 	philosopher->mutex = mutex_init();
 	philosopher->right_fork = &num;
 	philosopher->left_fork = NULL;
 	return (philosopher);
+}
+
+t_monitor	*init_monitor(t_philo **philo, int philo_count)
+{
+	t_monitor	*monitor;
+
+	monitor = ft_malloc(sizeof(t_monitor));
+	monitor->philo = philo;
+	monitor->philo_count = philo_count;
+	return (monitor);
 }

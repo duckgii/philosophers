@@ -6,7 +6,7 @@
 /*   By: yeoshin <yeoshin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/28 14:53:20 by yeoshin           #+#    #+#             */
-/*   Updated: 2024/05/03 16:56:56 by yeoshin          ###   ########.fr       */
+/*   Updated: 2024/05/03 22:20:31 by yeoshin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,18 +19,24 @@
 # include <sys/time.h>
 
 typedef struct s_philo{
-	int				die;
+	int				die_time;
 	int				eat_time;
 	int				sleep_time;
+	long			start_time;
+	long			start_starve;
+	int				must_eat_count;
 	int				eat_count;
 	int				*left_fork;
 	int				*right_fork;
 	int				philo_num;
-	long			start_starve;
-	long			start_time;
 	int				live;
 	pthread_mutex_t	*mutex;
 }	t_philo;
+
+typedef struct s_monitor{
+	t_philo	**philo;
+	int		philo_count;
+}	t_monitor;
 
 enum {
 	USE = 1,
@@ -49,6 +55,7 @@ void			start_philo(t_philo *philo);
 void			mutex_lock_and_think(t_philo *philo);
 int				get_fork(int eat_time, t_philo *philo);
 void			end_eat(t_philo *philo);
-
+void			*monitoring_thread(void *arg);
+t_monitor		*init_monitor(t_philo **philo, int philo_count);
 
 #endif
