@@ -2,8 +2,9 @@ NAME = philosopher
 CFLAGS = -Wall -Wextra -Werror -g3 -fsanitize=thread
 
 SRCS = main.c \
-		utile.c \
-		thread.c
+		thread_function.c \
+		thread_utile.c \
+		init.c
 
 OBJS = $(SRCS:.c=.o)
 

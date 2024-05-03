@@ -1,20 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utile.c                                            :+:      :+:    :+:   */
+/*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yeoshin <yeoshin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/28 15:05:43 by yeoshin           #+#    #+#             */
-/*   Updated: 2024/04/30 17:16:55 by yeoshin          ###   ########.fr       */
+/*   Created: 2024/05/03 14:27:16 by yeoshin           #+#    #+#             */
+/*   Updated: 2024/05/03 16:57:09 by yeoshin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosopher.h"
-#include <stdlib.h>
 
-static t_philo			*philosopher_init(int ac, char *av[]);
-static int				*fork_init(int size);
+static int		*fork_init(int size);
+static t_philo	*philosopher_init(int ac, char *av[]);
 
 t_philo	**init_philo(int ac, char *av[])
 {
@@ -34,12 +33,23 @@ t_philo	**init_philo(int ac, char *av[])
 		philosopher->left_fork = left_fork;
 		philosopher->right_fork = &(right_fork[idx]);
 		philosopher->philo_num = idx + 1;
+		philosopher->start_time = 0;
+		philosopher->live = ALIVE;
 		left_fork = &(right_fork[idx]);
 		ret[idx] = philosopher;
 		idx++;
 	}
 	ret[0]->left_fork = left_fork;
 	return (ret);
+}
+
+pthread_mutex_t	*mutex_init(void)
+{
+	pthread_mutex_t	*mutex;
+
+	mutex = ft_malloc(sizeof(pthread_mutex_t));
+	pthread_mutex_init(mutex, NULL);
+	return (mutex);
 }
 
 static int	*fork_init(int size)
@@ -75,26 +85,4 @@ static t_philo	*philosopher_init(int ac, char *av[])
 	philosopher->right_fork = &num;
 	philosopher->left_fork = NULL;
 	return (philosopher);
-}
-
-void	*ft_malloc(int size)
-{
-	void	*ret;
-
-	ret = malloc(size);
-	if (ret == NULL)
-	{
-		printf("memory allocate is falied\n");
-		exit(1);
-	}
-	return (ret);
-}
-
-pthread_mutex_t	*mutex_init(void)
-{
-	pthread_mutex_t	*mutex;
-
-	mutex = ft_malloc(sizeof(pthread_mutex_t));
-	pthread_mutex_init(mutex, NULL);
-	return (mutex);
 }
