@@ -6,7 +6,7 @@
 /*   By: yeoshin <yeoshin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 14:23:26 by yeoshin           #+#    #+#             */
-/*   Updated: 2024/05/03 22:37:24 by yeoshin          ###   ########.fr       */
+/*   Updated: 2024/05/03 22:50:13 by yeoshin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,8 @@ void	end_eat(t_philo *philo)
 		printf("%ld %d died\n", time, philo->philo_num);
 		*(philo->left_fork) = UNUSED;
 		*(philo->right_fork) = UNUSED;
+		pthread_mutex_unlock(philo->mutex);
+		pthread_mutex_lock(philo->mutex);
 		philo->live = DIE;
 		pthread_mutex_unlock(philo->mutex);
 		return ;

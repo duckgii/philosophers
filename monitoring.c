@@ -6,7 +6,7 @@
 /*   By: yeoshin <yeoshin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 19:17:28 by yeoshin           #+#    #+#             */
-/*   Updated: 2024/05/03 22:44:12 by yeoshin          ###   ########.fr       */
+/*   Updated: 2024/05/03 22:51:38 by yeoshin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ static int	one_die(t_philo **philo, int count)
 		pthread_mutex_lock((philo[idx])->mutex);
 		if ((philo[idx])->live == DIE)
 		{
-			printf("%dQQQQQ!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n", (philo[idx])->philo_num);
+			//printf("%dQQQQQ!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n", (philo[idx])->philo_num);
 			pthread_mutex_unlock((philo[idx])->mutex);
 			return (1);
 		}
