@@ -5,7 +5,8 @@ SRCS = main.c \
 		thread_function.c \
 		thread_utile.c \
 		init.c \
-		monitoring.c
+		monitoring.c \
+		check_in_mutex.c
 
 OBJS = $(SRCS:.c=.o)
 

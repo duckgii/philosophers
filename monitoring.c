@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   monitoring.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yeoshin <yeoshin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: duckgi <duckgi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 19:17:28 by yeoshin           #+#    #+#             */
-/*   Updated: 2024/05/03 22:51:38 by yeoshin          ###   ########.fr       */
+/*   Updated: 2024/05/05 19:02:36 by duckgi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,13 @@ void	*monitoring_thread(void *arg)
 	philo = monitor->philo;
 	while (1)
 	{
+		// printf("123\n");
 		if (one_die(monitor->philo, monitor->philo_count))
 		{
 			all_die(monitor->philo, monitor->philo_count);
 			break ;
 		}
+		// printf("123123123123123123\n");
 		if (all_eat(monitor->philo, monitor->philo_count))
 		{
 			all_die(monitor->philo, monitor->philo_count);
@@ -46,17 +48,18 @@ static int	one_die(t_philo **philo, int count)
 	idx = 0;
 	while (idx < count)
 	{
-		pthread_mutex_lock((philo[idx])->mutex);
-		if ((philo[idx])->live == DIE)
+		// printf("%d\n", idx);
+		pthread_mutex_lock(philo[idx]->mutex);
+		if (philo[idx]->live == DIE)
 		{
-			//printf("%dQQQQQ!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n", (philo[idx])->philo_num);
-			pthread_mutex_unlock((philo[idx])->mutex);
-			return (1);
+			pthread_mutex_unlock(philo[idx]->mutex);
+			return (TRUE);
 		}
-		pthread_mutex_unlock((philo[idx])->mutex);
+		pthread_mutex_unlock(philo[idx]->mutex);
 		idx++;
 	}
-	return (0);
+	// printf("3333\n");
+	return (FALSE);
 }
 
 static void	all_die(t_philo **philo, int count)
@@ -67,17 +70,16 @@ static void	all_die(t_philo **philo, int count)
 	idx = 0;
 	while (idx < count)
 	{
-		pthread_mutex_lock((philo[idx])->mutex);
-		if ((philo[idx])->live == ALIVE)
+		pthread_mutex_lock(philo[idx]->mutex);
+		if (philo[idx]->live == ALIVE)
 		{
-			(philo[idx])->live = DIE;
-			*((philo[idx])->left_fork) = UNUSED;
-			*((philo[idx])->right_fork) = UNUSED;
+			philo[idx]->live = DIE;
 			time = get_time(philo[idx]);
-			printf("%ld %d died\n", time, (philo[idx])->philo_num);
-			pthread_mutex_unlock((philo[idx])->mutex);
+			printf("%ld %d died\n", time, philo[idx]->philo_num);
+			*(philo[idx]->left_fork) = UNUSED;
+			*(philo[idx]->right_fork) = UNUSED;
 		}
-		pthread_mutex_unlock((philo[idx])->mutex);
+		pthread_mutex_unlock(philo[idx]->mutex);
 		idx++;
 	}
 }
@@ -87,16 +89,19 @@ static int	all_eat(t_philo **philo, int count)
 	int		idx;
 
 	idx = 0;
+	if (philo[0]->must_eat_count == -1)
+		return (FALSE);
 	while (idx < count)
 	{
-		pthread_mutex_lock((philo[idx])->mutex);
-		if ((philo[idx])->eat_count < (philo[idx])->must_eat_count)
+		pthread_mutex_lock(philo[idx]->mutex);
+		// printf("%d : %d\n", philo[idx]->philo_num, philo[idx]->eat_count);
+		if (philo[idx]->eat_count < (philo[idx])->must_eat_count)
 		{
-			pthread_mutex_unlock((philo[idx])->mutex);
-			return (0);
+			pthread_mutex_unlock(philo[idx]->mutex);
+			return (FALSE);
 		}
-		pthread_mutex_unlock((philo[idx])->mutex);
+		pthread_mutex_unlock(philo[idx]->mutex);
 		idx++;
 	}
-	return (1);
+	return (TRUE);
 }
