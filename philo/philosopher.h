@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philosopher.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: duckgi <duckgi@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yeoshin <yeoshin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/28 14:53:20 by yeoshin           #+#    #+#             */
-/*   Updated: 2024/05/05 17:42:58 by duckgi           ###   ########.fr       */
+/*   Updated: 2024/05/06 20:24:05 by yeoshin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define PHILOSOPHER_H
 
 # include <stdio.h>
-# include "./libft/libft.h"
+# include "../libft/libft.h"
 # include <pthread.h>
 # include <sys/time.h>
 
@@ -52,7 +52,8 @@ enum {
 	TRUE,
 };
 
-t_philo			**init_philo(int ac, char *av[]);
+t_philo			**init_philo(int ac, char *av[], int *fork);
+int				*fork_init(int size);
 void			*thread_function(void *arg);
 pthread_mutex_t	*mutex_init(void);
 long			get_time(t_philo *philo);
@@ -64,9 +65,15 @@ void			*monitoring_thread(void *arg);
 t_monitor		*init_monitor(t_philo **philo, int philo_count);
 int				check_live(t_philo *philo);
 void			check_and_change_live(t_philo *philo);
-void			change_fork_status(t_philo *philo, int *fork, int status);
-int				check_fork(t_philo *philo, int *fork);
 void			up_eat_count(t_philo *philo);
-int				check_eat_count(t_philo *philo);
+void			philo_eat(t_philo	*philo);
+void			philo_starve(t_philo *philo);
+void			philo_sleep(t_philo	*philo);
+int				free_fork(int *fork);
+int				free_philo_fork(t_philo **ret, int count, int *fork);
+int				free_philo_monitor_fork(t_philo **philo, t_monitor *monitor, \
+				int count, int *fork);
+int				check_live_in_mutex(t_philo *philo);
+void			*free_philo(t_philo **ret, int count);
 
 #endif

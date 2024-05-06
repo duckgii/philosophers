@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   thread_utile.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: duckgi <duckgi@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yeoshin <yeoshin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 14:23:26 by yeoshin           #+#    #+#             */
-/*   Updated: 2024/05/05 18:36:45 by duckgi           ###   ########.fr       */
+/*   Updated: 2024/05/06 20:21:47 by yeoshin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,6 @@ long	get_time(t_philo *philo)
 	return (time - philo->start_time);
 }
 
-
-
 void	end_eat(t_philo *philo)
 {
 	struct timeval	mytime;
@@ -36,26 +34,14 @@ void	end_eat(t_philo *philo)
 	{
 		usleep(philo->die_time * 1000);
 		pthread_mutex_lock(philo->mutex);
-		if (philo->live == DIE)
-		{
-			pthread_mutex_unlock(philo->mutex);
+		if (check_live_in_mutex(philo) == DIE)
 			return ;
-		}
-		philo->live = DIE;
-		time = get_time(philo);
-		printf("%ld %d died\n", time, philo->philo_num);
-		*(philo->left_fork) = UNUSED;
-		*(philo->right_fork) = UNUSED;
-		pthread_mutex_unlock(philo->mutex);
-		return ;
+		return (philo_starve(philo));
 	}
 	usleep(philo->eat_time * 1000);
 	pthread_mutex_lock(philo->mutex);
-	if (philo->live == DIE)
-	{
-		pthread_mutex_unlock(philo->mutex);
+	if (check_live_in_mutex(philo) == DIE)
 		return ;
-	}
 	*(philo->left_fork) = UNUSED;
 	*(philo->right_fork) = UNUSED;
 	(philo->eat_count)++;
@@ -90,14 +76,3 @@ int	get_fork(int eat_time, t_philo *philo)
 	}
 	return (0);
 }
-
-// void	mutex_lock_and_think(t_philo *philo)
-// {
-// 	long			time;
-
-// 	if (philo->live == DIE)
-// 		return ;
-// 	pthread_mutex_lock(philo->mutex);
-// 	time = get_time(philo);
-// 	printf("%ld %d is thinking\n", time, philo->philo_num);
-// }
