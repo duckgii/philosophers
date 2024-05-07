@@ -6,7 +6,7 @@
 /*   By: yeoshin <yeoshin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 19:08:52 by yeoshin           #+#    #+#             */
-/*   Updated: 2024/05/06 20:06:08 by yeoshin          ###   ########.fr       */
+/*   Updated: 2024/05/06 22:21:26 by yeoshin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@ void	*free_philo(t_philo **ret, int count)
 	idx = 0;
 	while (idx < count && ret[idx] != NULL)
 	{
+		free(ret[idx]->mutex_left);
+		free(ret[idx]->mutex_right);
 		free(ret[idx]);
 		idx++;
 	}

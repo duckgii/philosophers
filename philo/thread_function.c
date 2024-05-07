@@ -6,18 +6,18 @@
 /*   By: yeoshin <yeoshin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 14:22:52 by yeoshin           #+#    #+#             */
-/*   Updated: 2024/05/06 20:01:59 by yeoshin          ###   ########.fr       */
+/*   Updated: 2024/05/07 14:41:41 by yeoshin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosopher.h"
 
-void	*thread_function(void *arg)
+void	*thread_function(void *info)
 {
 	t_philo			*philo;
 	long			time;
 
-	philo = (t_philo *)arg;
+	philo = (t_philo *)info;
 	philo->start_time = get_time(philo);
 	philo->start_starve = 0;
 	start_philo(philo);

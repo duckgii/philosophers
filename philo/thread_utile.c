@@ -6,7 +6,7 @@
 /*   By: yeoshin <yeoshin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 14:23:26 by yeoshin           #+#    #+#             */
-/*   Updated: 2024/05/06 20:21:47 by yeoshin          ###   ########.fr       */
+/*   Updated: 2024/05/06 23:16:50 by yeoshin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,23 +29,23 @@ void	end_eat(t_philo *philo)
 
 	printf("%ld %d is eating\n", get_time(philo), philo->philo_num);
 	philo->start_starve = get_time(philo);
-	pthread_mutex_unlock(philo->mutex);
+	pthread_mutex_unlock(philo->mutex_philo);
 	if (philo->eat_time > philo->die_time)
 	{
 		usleep(philo->die_time * 1000);
-		pthread_mutex_lock(philo->mutex);
+		pthread_mutex_lock(philo->mutex_philo);
 		if (check_live_in_mutex(philo) == DIE)
 			return ;
 		return (philo_starve(philo));
 	}
 	usleep(philo->eat_time * 1000);
-	pthread_mutex_lock(philo->mutex);
+	pthread_mutex_lock(philo->mutex_philo);
 	if (check_live_in_mutex(philo) == DIE)
 		return ;
 	*(philo->left_fork) = UNUSED;
 	*(philo->right_fork) = UNUSED;
 	(philo->eat_count)++;
-	pthread_mutex_unlock(philo->mutex);
+	pthread_mutex_unlock(philo->mutex_philo);
 }
 
 int	get_fork(int eat_time, t_philo *philo)

@@ -6,7 +6,7 @@
 /*   By: yeoshin <yeoshin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/26 19:21:57 by yeoshin           #+#    #+#             */
-/*   Updated: 2024/05/06 20:23:44 by yeoshin          ###   ########.fr       */
+/*   Updated: 2024/05/06 22:11:33 by yeoshin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ int	main(int ac, char *av[])
 		return (1);
 	if (thread_end(threads, monitor))
 		return (1);
+	free(fork);
 	return (0);
 }
 

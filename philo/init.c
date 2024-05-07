@@ -6,13 +6,14 @@
 /*   By: yeoshin <yeoshin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 14:27:16 by yeoshin           #+#    #+#             */
-/*   Updated: 2024/05/06 20:24:12 by yeoshin          ###   ########.fr       */
+/*   Updated: 2024/05/06 22:20:50 by yeoshin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosopher.h"
 
 static t_philo	*philosopher_init(int ac, char *av[]);
+static int		mutex_init(t_philo *philo);
 
 t_philo	**init_philo(int ac, char *av[], int *fork)
 {
@@ -42,15 +43,28 @@ t_philo	**init_philo(int ac, char *av[], int *fork)
 	return (ret);
 }
 
-pthread_mutex_t	*mutex_init(void)
+static int	mutex_init(t_philo *philo)
 {
-	pthread_mutex_t	*mutex;
-
-	mutex = malloc(sizeof(pthread_mutex_t));
-	if (mutex == NULL)
-		return (NULL);
-	pthread_mutex_init(mutex, NULL);
-	return (mutex);
+	philo->mutex_philo = malloc(sizeof(pthread_mutex_t));
+	if (philo->mutex_philo == NULL)
+		return (FALSE);
+	philo->mutex_right = malloc(sizeof(pthread_mutex_t));
+	if (philo->mutex_right == NULL)
+	{
+		free(philo->mutex_philo);
+		return (FALSE);
+	}
+	philo->mutex_left = malloc(sizeof(pthread_mutex_t));
+	if (philo->mutex_left == NULL)
+	{
+		free(philo->mutex_philo);
+		free(philo->mutex_right);
+		return (FALSE);
+	}
+	pthread_mutex_init(philo->mutex_philo, NULL);
+	pthread_mutex_init(philo->mutex_right, NULL);
+	pthread_mutex_init(philo->mutex_left, NULL);
+	return (TRUE);
 }
 
 int	*fork_init(int size)
@@ -72,28 +86,27 @@ int	*fork_init(int size)
 
 static t_philo	*philosopher_init(int ac, char *av[])
 {
-	t_philo	*philosopher;
+	t_philo	*philo;
 	int		num;
 
 	num = UNUSED;
-	philosopher = malloc(sizeof(t_philo));
-	if (philosopher == NULL)
+	philo = malloc(sizeof(t_philo));
+	if (philo == NULL)
 		return (NULL);
-	philosopher->die_time = ft_atoi(av[2]);
-	philosopher->eat_time = ft_atoi(av[3]);
-	philosopher->sleep_time = ft_atoi(av[4]);
+	if (mutex_init(philo) == FALSE)
+		return (NULL);
+	philo->die_time = ft_atoi(av[2]);
+	philo->eat_time = ft_atoi(av[3]);
+	philo->sleep_time = ft_atoi(av[4]);
 	if (ac == 5)
-		philosopher->must_eat_count = -1;
+		philo->must_eat_count = -1;
 	else if (ac == 6)
-		philosopher->must_eat_count = ft_atoi(av[5]);
-	philosopher->mutex = mutex_init();
-	if (philosopher->mutex == NULL)
-		return (NULL);
-	philosopher->start_time = 0;
-	philosopher->live = ALIVE;
-	philosopher->right_fork = &num;
-	philosopher->left_fork = NULL;
-	return (philosopher);
+		philo->must_eat_count = ft_atoi(av[5]);
+	philo->start_time = 0;
+	philo->live = ALIVE;
+	philo->right_fork = &num;
+	philo->left_fork = NULL;
+	return (philo);
 }
 
 t_monitor	*init_monitor(t_philo **philo, int philo_count)

@@ -6,7 +6,7 @@
 /*   By: yeoshin <yeoshin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/28 14:53:20 by yeoshin           #+#    #+#             */
-/*   Updated: 2024/05/06 20:24:05 by yeoshin          ###   ########.fr       */
+/*   Updated: 2024/05/07 14:41:41 by yeoshin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,9 @@ typedef struct s_philo{
 	int				*right_fork;
 	int				philo_num;
 	int				live;
-	pthread_mutex_t	*mutex;
+	pthread_mutex_t	*mutex_philo;
+	pthread_mutex_t	*mutex_right;
+	pthread_mutex_t	*mutex_left;
 }	t_philo;
 
 typedef struct s_monitor{
@@ -54,14 +56,13 @@ enum {
 
 t_philo			**init_philo(int ac, char *av[], int *fork);
 int				*fork_init(int size);
-void			*thread_function(void *arg);
-pthread_mutex_t	*mutex_init(void);
+void			*thread_function(void *info);
 long			get_time(t_philo *philo);
 void			start_philo(t_philo *philo);
 void			mutex_lock_and_think(t_philo *philo);
 int				get_fork(int eat_time, t_philo *philo);
 void			end_eat(t_philo *philo);
-void			*monitoring_thread(void *arg);
+void			*monitoring_thread(void *info);
 t_monitor		*init_monitor(t_philo **philo, int philo_count);
 int				check_live(t_philo *philo);
 void			check_and_change_live(t_philo *philo);
