@@ -6,7 +6,7 @@
 /*   By: yeoshin <yeoshin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 11:49:51 by yeoshin           #+#    #+#             */
-/*   Updated: 2024/05/07 14:11:52 by yeoshin          ###   ########.fr       */
+/*   Updated: 2024/05/09 17:06:38 by yeoshin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,26 +31,33 @@ int	philo_die(t_philo *philo)
 	return (DIE);
 }
 
-int	check_die_in_usleep(t_main *main, int time)
+int	check_die_in_usleep(t_philo *philo, int time)
 {
 	int		idx;
 
+	idx = 0;
 	while (idx < 20)
 	{
 		idx++;
-		if (check_main_die(main) == DIE)
-			return (philo_die(main->philo));
+		if (check_info_die(philo->info) == DIE)
+			return (philo_die(philo));
 		usleep((time / 20) * 1000);
 	}
-	if (check_main_die(main) == DIE)
-		return (philo_die(main->philo));
+	if (check_info_die(philo->info) == DIE)
+		return (philo_die(philo));
 	return (ALIVE);
 }
 
 void	check_and_change_die(t_philo *philo)
 {
+	t_info	*info;
+
 	if (philo->live == DIE)
 		return ;
 	philo->live = DIE;
 	printf("%ld %d is died\n", get_time(philo), philo->philo_num);
+	info = philo->info;
+	lock(info->mutex_info);
+	info->live = DIE;
+	unlock(info->mutex_info);
 }

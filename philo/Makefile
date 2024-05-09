@@ -1,5 +1,5 @@
 NAME = philosopher
-CFLAGS = -Wall -Wextra -Werror -g3 -fsanitize=address
+CFLAGS = -Wall -Wextra -Werror -g3 -fsanitize=thread
 
 SRCS = main.c \
 		thread_function.c \

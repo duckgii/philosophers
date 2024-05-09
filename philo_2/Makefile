@@ -33,7 +33,7 @@ re :
 	make all
 
 ${NAME} : $(LIBFT) $(OBJS)
-	$(CC) -o  $@ $^
+	$(CC) -o $@ $^
 
 $(LIBFT) :
 	make -C ../libft/ bonus

@@ -6,7 +6,7 @@
 /*   By: yeoshin <yeoshin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 13:23:01 by yeoshin           #+#    #+#             */
-/*   Updated: 2024/05/07 14:09:20 by yeoshin          ###   ########.fr       */
+/*   Updated: 2024/05/09 16:21:47 by yeoshin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,15 +19,15 @@ void	change_fork_status(int *fork, int status, pthread_mutex_t *mutex)
 	unlock(mutex);
 }
 
-int	check_main_die(t_main *main)
+int	check_info_die(t_info *info)
 {
-	lock(main->mutex_main);
-	if (main->live == DIE)
+	lock(info->mutex_info);
+	if (info->live == DIE)
 	{
-		unlock(main->mutex_main);
+		unlock(info->mutex_info);
 		return (DIE);
 	}
-	unlock(main->mutex_main);
+	unlock(info->mutex_info);
 	return (ALIVE);
 }
 
@@ -41,7 +41,15 @@ void	unlock(pthread_mutex_t *mutex)
 	pthread_mutex_unlock(mutex);
 }
 
-//int	check_alive(t_main *main)
-//{
-
-//}
+void	check_all_eat(t_info *info, t_philo *philo)
+{
+	lock(info->mutex_info);
+	if (info->eat_finish != 0)
+	{
+		unlock(info->mutex_info);
+		return ;
+	}
+	if (philo->live == ALIVE)
+		philo_die(philo);
+	return ;
+}

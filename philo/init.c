@@ -6,7 +6,7 @@
 /*   By: yeoshin <yeoshin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 14:27:16 by yeoshin           #+#    #+#             */
-/*   Updated: 2024/05/06 22:20:50 by yeoshin          ###   ########.fr       */
+/*   Updated: 2024/05/09 16:02:12 by yeoshin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ static t_philo	*philosopher_init(int ac, char *av[])
 		philo->must_eat_count = ft_atoi(av[5]);
 	philo->start_time = 0;
 	philo->live = ALIVE;
-	philo->right_fork = &num;
+	*(philo->right_fork) = num;
 	philo->left_fork = NULL;
 	return (philo);
 }

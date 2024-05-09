@@ -6,116 +6,123 @@
 /*   By: yeoshin <yeoshin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 11:41:48 by yeoshin           #+#    #+#             */
-/*   Updated: 2024/05/07 14:41:41 by yeoshin          ###   ########.fr       */
+/*   Updated: 2024/05/09 16:59:30 by yeoshin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosopher.h"
 
-static void	end_eat(t_main *main);
-static void	philo_eat(t_main *main);
-static void	philo_sleep(t_main	*main);
+static void	end_eat(t_philo *philo);
+static void	philo_eat(t_philo *philo);
+static void	philo_sleep(t_philo *philo);
 
-void	*thread_function(void *info)
+void	*thread_function(void *arg)
 {
-	t_main	*main;
+	t_info	*info;
 	t_philo	*philo;
 
-	main = (t_main *)info;
-	philo = main->philo;
+	philo = (t_philo *)arg;
+	info = philo->info;
 	philo->start_time = get_time(philo);
 	while (1)
 	{
-		philo_eat(main);
-		philo_sleep(main);
-		lock(main->mutex_main);
-		if (main->live == DIE)
+		philo_eat(philo);
+		philo_sleep(philo);
+		lock(info->mutex_info);
+		check_all_eat(info, philo);
+		if (info->live == DIE)
 		{
-			unlock(main->mutex_main);
-			check_and_change_die(main->philo);
+			unlock(info->mutex_info);
+			check_and_change_die(philo);
 			break ;
 		}
-		unlock(main->mutex_main);
+		unlock(info->mutex_info);
 	}
 	return (NULL);
 }
 
-static void	philo_eat(t_main *main)
+static void	philo_eat(t_philo *philo)
 {
 	int		check;
-	t_philo	*philo;
+	t_info	*info;
 
 	check = FALSE;
-	philo = main->philo;
+	info = philo->info;
 	printf("%ld %d is thinking\n", get_time(philo), philo->philo_num);
 	while (check == FALSE)
 	{
 		if (philo->live == DIE)
 			return ;
-		if (get_time(philo) - philo->start_starve > main->die_time)
-			return (philo_starve(main));
+		if (get_time(philo) - philo->start_starve > info->die_time)
+			return (philo_starve(philo));
 		check = get_first_fork(philo);
 	}
 	check = FALSE;
 	while (check == FALSE)
 	{
-		if (get_time(philo) - philo->start_starve > main->die_time)
-			return (philo_starve(main));
+		if (get_time(philo) - philo->start_starve > info->die_time)
+			return (philo_starve(philo));
 		check = get_second_fork(philo);
 	}
 	printf("%ld %d is eating\n", get_time(philo), philo->philo_num);
-	end_eat(main);
+	end_eat(philo);
 }
 
-void	philo_starve(t_main *main)
+void	philo_starve(t_philo *philo)
 {
-	t_philo	*philo;
+	t_info	*info;
 
-	philo = main->philo;
+	info = philo->info;
 	if (philo->live == DIE)
 		return ;
 	philo->live = DIE;
-	lock(main->mutex_main);
-	main->live = DIE;
-	unlock(main->mutex_main);
+	lock(info->mutex_info);
+	info->live = DIE;
+	unlock(info->mutex_info);
 	printf("%ld %d died\n", get_time(philo), philo->philo_num);
 	change_fork_status(philo->left_fork, UNUSED, philo->mutex_left);
 	change_fork_status(philo->right_fork, UNUSED, philo->mutex_right);
 }
 
-static void	end_eat(t_main *main)
+static void	end_eat(t_philo *philo)
 {
-	t_philo	*philo;
+	t_info	*info;
 
-	philo = main->philo;
+	info = philo->info;
 	philo->start_starve = get_time(philo);
-	if (main->eat_time > main->die_time)
+	if (info->eat_time > info->die_time)
 	{
-		if (check_die_in_usleep(main, main->die_time) == DIE)
+		if (check_die_in_usleep(philo, info->die_time) == DIE)
 			return ;
-		return (philo_starve(main));
+		return (philo_starve(philo));
 	}
-	if (check_die_in_usleep(main, main->eat_time) == DIE)
+	if (check_die_in_usleep(philo, info->eat_time) == DIE)
 		return ;
 	change_fork_status(philo->left_fork, UNUSED, philo->mutex_left);
 	change_fork_status(philo->right_fork, UNUSED, philo->mutex_right);
 	(philo->eat_count)++;
+	if (philo->eat_count == info->must_eat_count)
+	{
+		lock(info->mutex_info);
+		(info->eat_finish)--;
+		unlock(info->mutex_info);
+	}
 }
 
-static void	philo_sleep(t_main	*main)
+static void	philo_sleep(t_philo *philo)
 {
-	t_philo	*philo;
+	t_info	*info;
 
-	philo = main->philo;
+	info = philo->info;
 	if (philo->live == DIE)
 		return ;
 	printf("%ld %d is sleeping\n", get_time(philo), philo->philo_num);
-	if (main->eat_time + main->sleep_time > main->die_time)
+	if (info->eat_time + info->sleep_time > info->die_time)
 	{
-		if (check_die_in_usleep(main, main->die_time - main->eat_time) == DIE)
+		if (check_die_in_usleep(philo, info->die_time - info->eat_time) == DIE)
 			return ;
-		philo_starve(main);
+		philo_starve(philo);
 		return ;
 	}
-	check_die_in_usleep(main, main->sleep_time);
+	check_die_in_usleep(philo, info->sleep_time);
 }
