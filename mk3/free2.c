@@ -6,7 +6,7 @@
 /*   By: yeoshin <yeoshin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 18:30:11 by yeoshin           #+#    #+#             */
-/*   Updated: 2024/05/14 18:42:23 by yeoshin          ###   ########.fr       */
+/*   Updated: 2024/05/14 23:32:30 by yeoshin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,6 @@ int	free_philo(t_philo **philo)
 {
 	int		count;
 	int		idx;
-
-
 
 	idx = 0;
 	count = philo[0]->info->philo_count;

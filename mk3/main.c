@@ -6,7 +6,7 @@
 /*   By: yeoshin <yeoshin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 14:42:53 by yeoshin           #+#    #+#             */
-/*   Updated: 2024/05/14 22:31:56 by yeoshin          ###   ########.fr       */
+/*   Updated: 2024/05/14 23:32:25 by yeoshin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ static int	start_threads(t_philo **philo, pthread_t **threads)
 	int				ret;
 	long			time;
 	struct timeval	mytime;
-
 
 	idx = 0;
 	gettimeofday(&mytime, NULL);

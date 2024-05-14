@@ -6,7 +6,7 @@
 /*   By: yeoshin <yeoshin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 19:44:11 by yeoshin           #+#    #+#             */
-/*   Updated: 2024/05/14 22:27:10 by yeoshin          ###   ########.fr       */
+/*   Updated: 2024/05/14 23:32:13 by yeoshin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,6 @@ int	get_first_fork(t_philo *philo)
 int	get_second_fork(t_philo *philo)
 {
 	int				*fork;
-	//long			time;
 	pthread_mutex_t	*mutex;
 
 	if (philo->philo_num % 2 != 0)
