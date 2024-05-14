@@ -6,7 +6,7 @@
 /*   By: yeoshin <yeoshin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 19:23:38 by yeoshin           #+#    #+#             */
-/*   Updated: 2024/05/14 20:43:50 by yeoshin          ###   ########.fr       */
+/*   Updated: 2024/05/14 21:38:34 by yeoshin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,8 @@ static void	end_eat(t_philo *philo, t_info *info)
 	{
 		if (check_die_in_usleep(philo, info->die_time) == DIE)
 			return ;
-		return (philo_starve(philo, info));
+		philo_starve(philo, info);
+		return ;
 	}
 	if (check_die_in_usleep(philo, info->eat_time) == DIE)
 		return ;
@@ -66,9 +67,6 @@ static void	end_eat(t_philo *philo, t_info *info)
 
 void	philo_sleep(t_philo *philo, t_info *info)
 {
-	if (philo->live == DIE || check_all_eat(philo->info) == TRUE || \
-		check_someone_die(info) == TRUE)
-		return ;
 	printf("%ld %d is sleeping\n", get_time(philo), philo->philo_num);
 	if (info->eat_time + info->sleep_time > info->die_time)
 	{
@@ -82,11 +80,16 @@ void	philo_sleep(t_philo *philo, t_info *info)
 
 void	philo_starve(t_philo *philo, t_info *info)
 {
-	printf("%d %d is died\n", philo->philo_num, get_time(philo));
+	lock(info->mutex_info);
+	if (info->live == DIE)
+	{
+		unlock(info->mutex_info);
+		return ;
+	}
+	printf("%ld %d died\n", get_time(philo), philo->philo_num);
 	philo->live = DIE;
 	change_fork_status(philo->left_fork, UNUSED, philo->mutex_left);
 	change_fork_status(philo->right_fork, UNUSED, philo->mutex_right);
-	lock(info->mutex_info);
 	info->live = DIE;
 	unlock(info->mutex_info);
 }

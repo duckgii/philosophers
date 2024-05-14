@@ -6,7 +6,7 @@
 /*   By: yeoshin <yeoshin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 14:43:20 by yeoshin           #+#    #+#             */
-/*   Updated: 2024/05/14 20:46:51 by yeoshin          ###   ########.fr       */
+/*   Updated: 2024/05/14 21:29:56 by yeoshin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include <stdlib.h>
 # include <pthread.h>
 # include <sys/time.h>
+# include <unistd.h>
 
 typedef struct s_info {
 	int				die_time;
@@ -56,8 +57,9 @@ enum {
 };
 
 int		ft_atoi(const char *str);
+int		ft_strncmp(const char *s1, const char *s2, size_t n);
 t_philo	**parse_arg(int ac, char *av[]);
-void	make_one_philo(t_philo *philo, t_info *info, int idx, char *av[]);
+void	make_one_philo(t_philo *philo, t_info *info, int idx);
 t_info	*malloc_info(t_info *info, char *av[]);
 void	*free_one(void	*pointer);
 void	*free_malloc_philos(t_philo **ret, int count);

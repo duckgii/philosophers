@@ -6,7 +6,7 @@
 /*   By: yeoshin <yeoshin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 19:09:30 by yeoshin           #+#    #+#             */
-/*   Updated: 2024/05/14 20:46:01 by yeoshin          ###   ########.fr       */
+/*   Updated: 2024/05/14 21:38:47 by yeoshin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,24 +44,12 @@ int	check_die_in_usleep(t_philo *philo, long time)
 	t_info	*info;
 
 	info = philo->info;
-	while (time > 0)
-	{
-		if (check_info_die(philo->info) == DIE)
-			return (philo_die(philo));
-		if (check_all_eat(philo->info) == TRUE)
-			return (DIE);
-		if (time > 9)
-			usleep(9 * 1000);
-		else
-			usleep(time * 1000);
-		time -= 9;
-	}
-	if (check_info_live(philo->info) == DIE)
-	{
-		philo_starve(philo, info);
+	if (check_info_live(philo->info) == DIE || \
+		check_all_eat(philo->info) == TRUE)
 		return (DIE);
-	}
-	if (check_all_eat(philo->info) == TRUE)
+	usleep(time * 1000);
+	if (check_info_live(philo->info) == DIE || \
+		check_all_eat(philo->info) == TRUE)
 		return (DIE);
 	return (ALIVE);
 }

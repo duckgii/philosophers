@@ -6,11 +6,11 @@
 /*   By: yeoshin <yeoshin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 19:44:27 by yeoshin           #+#    #+#             */
-/*   Updated: 2024/04/28 15:41:48 by yeoshin          ###   ########.fr       */
+/*   Updated: 2024/05/14 20:52:05 by yeoshin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "philosopher.h"
 
 static int	len_use(const char *string)
 {

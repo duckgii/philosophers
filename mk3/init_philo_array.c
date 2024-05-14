@@ -6,7 +6,7 @@
 /*   By: yeoshin <yeoshin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 15:27:50 by yeoshin           #+#    #+#             */
-/*   Updated: 2024/05/14 19:02:19 by yeoshin          ###   ########.fr       */
+/*   Updated: 2024/05/14 21:29:39 by yeoshin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ static t_philo	**init_philo_array(t_philo **philo, int ac, char **av)
 		return (free_malloc_philos(philo, ft_atoi(av[1])));
 	while (idx < ft_atoi(av[1]))
 	{
-		make_one_philo(philo[idx], info, idx, av);
+		make_one_philo(philo[idx], info, idx);
 		idx++;
 	}
 	init_first_philo(philo, ft_atoi(av[1]));
@@ -69,7 +69,7 @@ static t_info	*init_info(int ac, char *av[])
 {
 	t_info	*info;
 
-	info = malloc(sizeof(info));
+	info = malloc(sizeof(t_info));
 	if (info == NULL)
 		return (NULL);
 	info = malloc_info(info, av);

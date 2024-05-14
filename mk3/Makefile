@@ -1,10 +1,11 @@
-NAME = philosopher
+NAME = philo
 CFLAGS = -Wall -Wextra -Werror -g3 -fsanitize=address
 
 SRCS = main.c \
 		free.c \
 		free2.c \
 		ft_atoi.c \
+		ft_strncmp.c \
 		init_info.c \
 		init_one_philo.c \
 		init_philo_array.c \
@@ -31,7 +32,7 @@ re :
 	make all
 
 ${NAME} : $(OBJS)
-	$(CC) -o $@ $^
+	$(CC) $(CFLAGS) -o $@ $^
 
 $(OBJS) : %.o : %.c
-	$(CC) $(INCLUDE) -c $< -o $@
+	$(CC) $(CFLAGS) $(INCLUDE) -c $< -o $@

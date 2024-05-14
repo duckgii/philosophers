@@ -6,21 +6,20 @@
 /*   By: yeoshin <yeoshin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 14:42:53 by yeoshin           #+#    #+#             */
-/*   Updated: 2024/05/14 19:01:09 by yeoshin          ###   ########.fr       */
+/*   Updated: 2024/05/14 21:28:34 by yeoshin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosopher.h"
 
 static int			start_threads(t_philo **philo, pthread_t **threads);
-static int			thread_end(pthread_t **threads, int philo_count);
+static int			end_threads(pthread_t **threads, int philo_count);
 static pthread_t	**init_threads(int count);
 
-int	main(int ac, char av[])
+int	main(int ac, char *av[])
 {
 	t_philo		**philo;
 	pthread_t	**threads;
-	int			ret;
 
 	philo = parse_arg(ac, av);
 	if (philo == NULL)
@@ -30,7 +29,7 @@ int	main(int ac, char av[])
 		return (free_philo(philo));
 	if (start_threads(philo, threads) != 0)
 		return (free_philo_threads(philo, threads));
-	if (end_threads(philo, threads) != 0)
+	if (end_threads(threads, ft_atoi(av[1])) != 0)
 		return (free_philo_threads(philo, threads));
 	return (0);
 }
@@ -47,7 +46,7 @@ static int	start_threads(t_philo **philo, pthread_t **threads)
 		if (ret != 0)
 		{
 			printf("info thread is failed\n");
-			thread_end(threads, idx);
+			end_threads(threads, idx);
 			return (1);
 		}
 		idx++;
@@ -55,7 +54,7 @@ static int	start_threads(t_philo **philo, pthread_t **threads)
 	return (0);
 }
 
-static int	thread_end(pthread_t **threads, int philo_count)
+static int	end_threads(pthread_t **threads, int philo_count)
 {
 	int			idx;
 	int			ret;

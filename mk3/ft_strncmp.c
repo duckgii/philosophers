@@ -1,30 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init_one_philo.c                                   :+:      :+:    :+:   */
+/*   ft_strncmp.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yeoshin <yeoshin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/14 16:13:41 by yeoshin           #+#    #+#             */
-/*   Updated: 2024/05/14 21:29:30 by yeoshin          ###   ########.fr       */
+/*   Created: 2023/10/07 11:09:58 by yeoshin           #+#    #+#             */
+/*   Updated: 2024/05/14 20:53:12 by yeoshin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosopher.h"
 
-void	make_one_philo(t_philo *philo, t_info *info, int idx)
+int	ft_strncmp(const char *s1, const char *s2, size_t n)
 {
-	if (idx != 0)
+	size_t			idx;
+	unsigned char	*str1;
+	unsigned char	*str2;
+
+	str1 = (unsigned char *)s1;
+	str2 = (unsigned char *)s2;
+	idx = 0;
+	if (n == 0)
+		return (0);
+	while (idx < n)
 	{
-		philo->mutex_left = info->mutex_fork[idx - 1];
-		philo->left_fork = &info->fork[idx - 1];
+		if (str1[idx] != str2[idx])
+			return (str1[idx] - str2[idx]);
+		else if (str1[idx] == '\0')
+			break ;
+		idx ++;
 	}
-	philo->right_fork = &info->fork[idx];
-	philo->mutex_right = info->mutex_fork[idx];
-	philo->live = ALIVE;
-	philo->eat_count = 0;
-	philo->start_time = 0;
-	philo->start_starve = 0;
-	philo->philo_num = idx + 1;
-	philo->info = info;
+	return (0);
 }

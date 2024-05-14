@@ -6,7 +6,7 @@
 /*   By: yeoshin <yeoshin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 19:44:11 by yeoshin           #+#    #+#             */
-/*   Updated: 2024/05/14 20:04:12 by yeoshin          ###   ########.fr       */
+/*   Updated: 2024/05/14 21:11:55 by yeoshin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int	get_first_fork(t_philo *philo)
 {
 	int				*fork;
-	long			time;
+	//long			time;
 	pthread_mutex_t	*mutex;
 
 	if (philo->philo_num % 2 == 0)
@@ -43,7 +43,7 @@ int	get_first_fork(t_philo *philo)
 int	get_second_fork(t_philo *philo)
 {
 	int				*fork;
-	long			time;
+	//long			time;
 	pthread_mutex_t	*mutex;
 
 	if (philo->philo_num % 2 != 0)
@@ -73,9 +73,9 @@ int	check_info_live(t_info *info)
 	lock(info->mutex_info);
 	if (info->live == DIE)
 	{
-		unlock(info->mutex_fork);
+		unlock(info->mutex_info);
 		return (DIE);
 	}
-	unlock(info->mutex_fork);
+	unlock(info->mutex_info);
 	return (ALIVE);
 }
