@@ -6,7 +6,7 @@
 /*   By: yeoshin <yeoshin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 19:04:08 by yeoshin           #+#    #+#             */
-/*   Updated: 2024/05/14 21:39:04 by yeoshin          ###   ########.fr       */
+/*   Updated: 2024/05/14 22:31:52 by yeoshin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,17 +19,16 @@ void	*thread_function(void *arg)
 
 	philo = (t_philo *)arg;
 	info = philo->info;
-	philo->start_time = get_time(philo);
 	philo->start_starve = philo->start_time;
 	while (1)
 	{
 		printf("%ld %d is thinking\n", get_time(philo), philo->philo_num);
 		philo_eat(philo, info);
-		if (check_all_eat(info) == TRUE || philo->live == DIE || \
+		if (check_all_eat(info) == TRUE || \
 			check_someone_die(info) == TRUE)
 			break ;
 		philo_sleep(philo, info);
-		if (check_all_eat(info) == TRUE || philo->live == DIE || \
+		if (check_all_eat(info) == TRUE || \
 			check_someone_die(info) == TRUE)
 			break ;
 	}

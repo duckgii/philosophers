@@ -6,7 +6,7 @@
 /*   By: yeoshin <yeoshin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 14:42:53 by yeoshin           #+#    #+#             */
-/*   Updated: 2024/05/14 21:28:34 by yeoshin          ###   ########.fr       */
+/*   Updated: 2024/05/14 22:31:56 by yeoshin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,12 +36,18 @@ int	main(int ac, char *av[])
 
 static int	start_threads(t_philo **philo, pthread_t **threads)
 {
-	int		idx;
-	int		ret;
+	int				idx;
+	int				ret;
+	long			time;
+	struct timeval	mytime;
+
 
 	idx = 0;
+	gettimeofday(&mytime, NULL);
+	time = (mytime.tv_sec * 1000) + mytime.tv_usec / 1000;
 	while (idx < philo[0]->info->philo_count)
 	{
+		philo[idx]->start_time = time;
 		ret = pthread_create(threads[idx], NULL, thread_function, philo[idx]);
 		if (ret != 0)
 		{

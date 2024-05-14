@@ -6,7 +6,7 @@
 /*   By: yeoshin <yeoshin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 16:13:41 by yeoshin           #+#    #+#             */
-/*   Updated: 2024/05/14 21:29:30 by yeoshin          ###   ########.fr       */
+/*   Updated: 2024/05/14 21:44:24 by yeoshin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ void	make_one_philo(t_philo *philo, t_info *info, int idx)
 	}
 	philo->right_fork = &info->fork[idx];
 	philo->mutex_right = info->mutex_fork[idx];
-	philo->live = ALIVE;
 	philo->eat_count = 0;
 	philo->start_time = 0;
 	philo->start_starve = 0;

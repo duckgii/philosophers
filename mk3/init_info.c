@@ -6,7 +6,7 @@
 /*   By: yeoshin <yeoshin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 16:38:33 by yeoshin           #+#    #+#             */
-/*   Updated: 2024/05/14 21:28:28 by yeoshin          ###   ########.fr       */
+/*   Updated: 2024/05/14 22:23:11 by yeoshin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ t_info	*malloc_info(t_info *info, char *av[])
 	info->mutex_info = malloc(sizeof(pthread_mutex_t));
 	if (info->mutex_info == NULL)
 		return (free_one(info->fork));
+	pthread_mutex_init(info->mutex_info, NULL);
 	info->mutex_fork = malloc_mutex_fork(ft_atoi(av[1]));
 	if (info->mutex_fork == NULL)
 	{

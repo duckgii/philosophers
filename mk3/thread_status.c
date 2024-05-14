@@ -6,7 +6,7 @@
 /*   By: yeoshin <yeoshin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 19:23:38 by yeoshin           #+#    #+#             */
-/*   Updated: 2024/05/14 21:38:34 by yeoshin          ###   ########.fr       */
+/*   Updated: 2024/05/14 22:27:10 by yeoshin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,10 +86,9 @@ void	philo_starve(t_philo *philo, t_info *info)
 		unlock(info->mutex_info);
 		return ;
 	}
-	printf("%ld %d died\n", get_time(philo), philo->philo_num);
-	philo->live = DIE;
-	change_fork_status(philo->left_fork, UNUSED, philo->mutex_left);
-	change_fork_status(philo->right_fork, UNUSED, philo->mutex_right);
 	info->live = DIE;
 	unlock(info->mutex_info);
+	printf("%ld %d died\n", get_time(philo), philo->philo_num);
+	change_fork_status(philo->left_fork, UNUSED, philo->mutex_left);
+	change_fork_status(philo->right_fork, UNUSED, philo->mutex_right);
 }
