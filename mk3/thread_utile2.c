@@ -6,7 +6,7 @@
 /*   By: yeoshin <yeoshin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 19:44:11 by yeoshin           #+#    #+#             */
-/*   Updated: 2024/05/14 23:32:13 by yeoshin          ###   ########.fr       */
+/*   Updated: 2024/05/17 15:05:12 by yeoshin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,12 @@ int	get_first_fork(t_philo *philo)
 		fork = philo->right_fork;
 		mutex = philo->mutex_right;
 	}
+	if (mutex == NULL)
+		return (FALSE);
 	lock(mutex);
 	if (*fork == UNUSED)
 	{
-		printf("%ld %d has taken a fork\n", get_time(philo), philo->philo_num);
+		print_take_fork(philo, philo->info);
 		*fork = USE;
 		unlock(mutex);
 		return (TRUE);
@@ -54,10 +56,12 @@ int	get_second_fork(t_philo *philo)
 		fork = philo->right_fork;
 		mutex = philo->mutex_right;
 	}
+	if (mutex == NULL)
+		return (FALSE);
 	lock(mutex);
 	if (*fork == UNUSED)
 	{
-		printf("%ld %d has taken a fork\n", get_time(philo), philo->philo_num);
+		print_take_fork(philo, philo->info);
 		*fork = USE;
 		unlock(mutex);
 		return (TRUE);
@@ -68,12 +72,12 @@ int	get_second_fork(t_philo *philo)
 
 int	check_info_live(t_info *info)
 {
-	lock(info->mutex_info);
+	lock(info->mutex_live);
 	if (info->live == DIE)
 	{
-		unlock(info->mutex_info);
+		unlock(info->mutex_live);
 		return (DIE);
 	}
-	unlock(info->mutex_info);
+	unlock(info->mutex_live);
 	return (ALIVE);
 }

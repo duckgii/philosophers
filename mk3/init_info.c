@@ -6,12 +6,13 @@
 /*   By: yeoshin <yeoshin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 16:38:33 by yeoshin           #+#    #+#             */
-/*   Updated: 2024/05/14 22:23:11 by yeoshin          ###   ########.fr       */
+/*   Updated: 2024/05/15 16:14:00 by yeoshin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosopher.h"
 
+static int				init_info_mutex(t_info *info);
 static pthread_mutex_t	**malloc_mutex_fork(int count);
 
 t_info	*malloc_info(t_info *info, char *av[])
@@ -27,17 +28,41 @@ t_info	*malloc_info(t_info *info, char *av[])
 		info->fork[idx] = UNUSED;
 		idx++;
 	}
-	info->mutex_info = malloc(sizeof(pthread_mutex_t));
-	if (info->mutex_info == NULL)
+	if (init_info_mutex(info) == FALSE)
 		return (free_one(info->fork));
-	pthread_mutex_init(info->mutex_info, NULL);
 	info->mutex_fork = malloc_mutex_fork(ft_atoi(av[1]));
 	if (info->mutex_fork == NULL)
 	{
 		free(info->fork);
-		return (free_one(info->mutex_info));
+		free(info->mutex_printable);
+		free(info->mutex_all_eat);
+		return (free_one(info->mutex_live));
 	}
 	return (info);
+}
+
+static int	init_info_mutex(t_info *info)
+{
+	info->mutex_live = malloc(sizeof(pthread_mutex_t));
+	if (info->mutex_live == NULL)
+		return (FALSE);
+	info->mutex_all_eat = malloc(sizeof(pthread_mutex_t));
+	if (info->mutex_live == NULL)
+	{
+		free(info->mutex_live);
+		return (FALSE);
+	}
+	info->mutex_printable = malloc(sizeof(pthread_mutex_t));
+	if (info->mutex_live == NULL)
+	{
+		free(info->mutex_live);
+		free(info->mutex_all_eat);
+		return (FALSE);
+	}
+	pthread_mutex_init(info->mutex_live, NULL);
+	pthread_mutex_init(info->mutex_all_eat, NULL);
+	pthread_mutex_init(info->mutex_printable, NULL);
+	return (TRUE);
 }
 
 static pthread_mutex_t	**malloc_mutex_fork(int count)

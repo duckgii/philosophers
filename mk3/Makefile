@@ -1,5 +1,5 @@
 NAME = philo
-CFLAGS = -Wall -Wextra -Werror -g3 -fsanitize=thread
+CFLAGS = -Wall -Wextra -Werror #-g3 -fsanitize=address
 
 SRCS = main.c \
 		free.c \
@@ -12,7 +12,8 @@ SRCS = main.c \
 		thread_main.c \
 		thread_status.c \
 		thread_utile.c \
-		thread_utile2.c
+		thread_utile2.c \
+		thread_mutex_print.c
 
 OBJS = $(SRCS:.c=.o)
 

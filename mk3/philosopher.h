@@ -6,7 +6,7 @@
 /*   By: yeoshin <yeoshin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 14:43:20 by yeoshin           #+#    #+#             */
-/*   Updated: 2024/05/14 22:27:18 by yeoshin          ###   ########.fr       */
+/*   Updated: 2024/05/15 17:31:32 by yeoshin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,15 @@ typedef struct s_info {
 	int				sleep_time;
 	int				must_eat_count;
 	int				live;
+	int				printable;
 	int				eat_finish_count;
 	int				philo_count;
 	int				*fork;
+	long			start_time;
 	pthread_mutex_t	**mutex_fork;
-	pthread_mutex_t	*mutex_info;
+	pthread_mutex_t	*mutex_live;
+	pthread_mutex_t	*mutex_all_eat;
+	pthread_mutex_t	*mutex_printable;
 }	t_info;
 
 typedef struct s_philo{
@@ -53,6 +57,8 @@ enum {
 	UNUSED,
 	FIRST_FORK,
 	SECOND_FORK,
+	PRINTABLE,
+	NOT_PRINTABLE,
 };
 
 int		ft_atoi(const char *str);
@@ -80,5 +86,9 @@ int		check_die_in_usleep(t_philo *philo, long time);
 int		get_first_fork(t_philo *philo);
 int		get_second_fork(t_philo *philo);
 int		check_info_live(t_info *info);
+int		philo_think(t_philo *philo, t_info *info);
+void	print_take_fork(t_philo *philo, t_info *info);
+void	print_eating(t_philo *philo, t_info *info);
+void	print_sleeping(t_philo *philo, t_info *info);
 
 #endif

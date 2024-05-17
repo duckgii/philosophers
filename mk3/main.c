@@ -6,7 +6,7 @@
 /*   By: yeoshin <yeoshin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 14:42:53 by yeoshin           #+#    #+#             */
-/*   Updated: 2024/05/14 23:32:25 by yeoshin          ###   ########.fr       */
+/*   Updated: 2024/05/15 17:58:57 by yeoshin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ int	main(int ac, char *av[])
 	t_philo		**philo;
 	pthread_t	**threads;
 
+	//if (check_arg(ac, av) == FALSE)
+	//	return (1);
 	philo = parse_arg(ac, av);
 	if (philo == NULL)
 		return (1);
@@ -42,11 +44,9 @@ static int	start_threads(t_philo **philo, pthread_t **threads)
 	struct timeval	mytime;
 
 	idx = 0;
-	gettimeofday(&mytime, NULL);
-	time = (mytime.tv_sec * 1000) + mytime.tv_usec / 1000;
+	lock(philo[0]->info->mutex_live);
 	while (idx < philo[0]->info->philo_count)
 	{
-		philo[idx]->start_time = time;
 		ret = pthread_create(threads[idx], NULL, thread_function, philo[idx]);
 		if (ret != 0)
 		{
@@ -56,6 +56,10 @@ static int	start_threads(t_philo **philo, pthread_t **threads)
 		}
 		idx++;
 	}
+	gettimeofday(&mytime, NULL);
+	time = (mytime.tv_sec * 1000) + mytime.tv_usec / 1000;
+	philo[0]->info->start_time = time;
+	unlock(philo[0]->info->mutex_live);
 	return (0);
 }
 
@@ -99,3 +103,6 @@ static pthread_t	**init_threads(int count)
 	}
 	return (ret);
 }
+
+//static int check_arg(int ac, char *av[])
+//{}

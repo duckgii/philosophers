@@ -6,7 +6,7 @@
 /*   By: yeoshin <yeoshin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 19:09:30 by yeoshin           #+#    #+#             */
-/*   Updated: 2024/05/14 22:27:40 by yeoshin          ###   ########.fr       */
+/*   Updated: 2024/05/15 14:37:28 by yeoshin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,12 +42,20 @@ void	change_fork_status(int *fork, int status, pthread_mutex_t *mutex)
 int	check_die_in_usleep(t_philo *philo, long time)
 {
 	t_info	*info;
+	long	start_time;
 
 	info = philo->info;
+	start_time = get_time(philo);
 	if (check_info_live(philo->info) == DIE || \
 		check_all_eat(philo->info) == TRUE)
 		return (DIE);
-	usleep(time * 1000);
+	usleep(time * 800);
+	while (TRUE)
+	{
+		if (philo->info->eat_time == get_time(philo) - start_time)
+			break ;
+		usleep(100);
+	}
 	if (check_info_live(philo->info) == DIE || \
 		check_all_eat(philo->info) == TRUE)
 		return (DIE);
