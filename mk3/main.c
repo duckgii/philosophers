@@ -6,7 +6,7 @@
 /*   By: yeoshin <yeoshin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 14:42:53 by yeoshin           #+#    #+#             */
-/*   Updated: 2024/05/15 17:58:57 by yeoshin          ###   ########.fr       */
+/*   Updated: 2024/05/17 15:39:13 by yeoshin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,15 @@
 static int			start_threads(t_philo **philo, pthread_t **threads);
 static int			end_threads(pthread_t **threads, int philo_count);
 static pthread_t	**init_threads(int count);
+static int			check_arg(int ac, char *av[]);
 
 int	main(int ac, char *av[])
 {
 	t_philo		**philo;
 	pthread_t	**threads;
 
-	//if (check_arg(ac, av) == FALSE)
-	//	return (1);
+	if (check_arg(ac, av) == FALSE)
+		return (1);
 	philo = parse_arg(ac, av);
 	if (philo == NULL)
 		return (1);
@@ -104,5 +105,25 @@ static pthread_t	**init_threads(int count)
 	return (ret);
 }
 
-//static int check_arg(int ac, char *av[])
-//{}
+static int	check_arg(int ac, char *av[])
+{
+	int		flag;
+
+	flag = TRUE;
+	if (ac != 5 && ac != 6)
+		flag = FALSE;
+	if (ft_atoi(av[1]) <= 0 || ft_atoi(av[2]) <= 0 || ft_atoi(av[3]) <= 0 || \
+		ft_atoi(av[4]) <= 0)
+		flag = FALSE;
+	if (ac == 6)
+	{
+		if (ft_atoi(av[5]) <= 0)
+			flag = FALSE;
+	}
+	if (flag == FALSE)
+	{
+		printf("Arguments are invalid!!\n");
+		return (FALSE);
+	}
+	return (TRUE);
+}
