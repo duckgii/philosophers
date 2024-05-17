@@ -6,7 +6,7 @@
 /*   By: yeoshin <yeoshin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 14:43:20 by yeoshin           #+#    #+#             */
-/*   Updated: 2024/05/15 17:31:32 by yeoshin          ###   ########.fr       */
+/*   Updated: 2024/05/17 22:00:35 by yeoshin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,6 @@ int		free_philo(t_philo **philo);
 int		free_philo_threads(t_philo **philo, pthread_t **threads);
 void	*thread_function(void *arg);
 int		check_all_eat(t_info *info);
-int		check_someone_die(t_info *info);
 void	philo_eat(t_philo *philo, t_info *info);
 void	philo_sleep(t_philo *philo, t_info *info);
 void	philo_starve(t_philo *philo, t_info *info);

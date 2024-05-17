@@ -6,7 +6,7 @@
 /*   By: yeoshin <yeoshin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 19:23:38 by yeoshin           #+#    #+#             */
-/*   Updated: 2024/05/17 15:32:03 by yeoshin          ###   ########.fr       */
+/*   Updated: 2024/05/17 21:44:29 by yeoshin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,9 +59,9 @@ static void	end_eat(t_philo *philo, t_info *info)
 	(philo->eat_count)++;
 	if (philo->eat_count == info->must_eat_count)
 	{
-		lock(info->mutex_live);
+		lock(info->mutex_all_eat);
 		(info->eat_finish_count)--;
-		unlock(info->mutex_live);
+		unlock(info->mutex_all_eat);
 	}
 }
 
@@ -89,11 +89,13 @@ void	philo_starve(t_philo *philo, t_info *info)
 	{
 		printf("%ld %d died\n", get_time(philo), philo->philo_num);
 		info->printable = NOT_PRINTABLE;
+		unlock(info->mutex_printable);
 		lock(info->mutex_live);
 		info->live = DIE;
 		unlock(info->mutex_live);
 	}
-	unlock(info->mutex_printable);
+	else
+		unlock(info->mutex_printable);
 }
 
 int	philo_think(t_philo *philo, t_info *info)

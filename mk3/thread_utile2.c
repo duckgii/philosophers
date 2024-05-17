@@ -6,7 +6,7 @@
 /*   By: yeoshin <yeoshin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 19:44:11 by yeoshin           #+#    #+#             */
-/*   Updated: 2024/05/17 15:05:12 by yeoshin          ###   ########.fr       */
+/*   Updated: 2024/05/17 21:33:44 by yeoshin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,16 +17,16 @@ int	get_first_fork(t_philo *philo)
 	int				*fork;
 	pthread_mutex_t	*mutex;
 
-	if (philo->philo_num % 2 == 0)
-	{
-		fork = philo->left_fork;
-		mutex = philo->mutex_left;
-	}
-	else
-	{
-		fork = philo->right_fork;
-		mutex = philo->mutex_right;
-	}
+	//if (philo->philo_num % 2 == 0)
+	//{
+	//	fork = philo->left_fork;
+	//	mutex = philo->mutex_left;
+	//}
+	//else
+	//{
+	fork = philo->right_fork;
+	mutex = philo->mutex_right;
+	//}
 	if (mutex == NULL)
 		return (FALSE);
 	lock(mutex);
@@ -46,16 +46,16 @@ int	get_second_fork(t_philo *philo)
 	int				*fork;
 	pthread_mutex_t	*mutex;
 
-	if (philo->philo_num % 2 != 0)
-	{
-		fork = philo->left_fork;
-		mutex = philo->mutex_left;
-	}
-	else
-	{
-		fork = philo->right_fork;
-		mutex = philo->mutex_right;
-	}
+	//if (philo->philo_num % 2 != 0)
+	//{
+	fork = philo->left_fork;
+	mutex = philo->mutex_left;
+	//}
+	//else
+	//{
+	//	fork = philo->right_fork;
+	//	mutex = philo->mutex_right;
+	//}
 	if (mutex == NULL)
 		return (FALSE);
 	lock(mutex);
