@@ -1,7 +1,8 @@
 NAME = philo
+BONUS = philo_bonus
 CFLAGS = -Wall -Wextra -Werror #-g3 -fsanitize=address
 
-SRCS = main.c \
+MANDATORY_SRCS = main.c \
 		free.c \
 		free2.c \
 		ft_atoi.c \
@@ -15,14 +16,24 @@ SRCS = main.c \
 		thread_utile2.c \
 		thread_mutex_print.c
 
-OBJS = $(SRCS:.c=.o)
+MANDATORY_DIR = ./mandatory/
+MANDATORY = $(addprefix $(MANDATORY_DIR),$(MANDATORY_SRCS))
+MANDATORY_OBJS = $(MANDATORY:.c=.o)
+
+BONUS_SRCS = main_bonus.c
+
+BONUS_DIR = ./bonus/
+BONUS_TEMP = $(addprefix $(BONUS_DIR),$(BONUS_SRCS))
+BONUS_OBJS = $(BONUS_TEMP:.c=.o)
 
 all : $(NAME)
+
+bonus : $(BONUS)
 
 make : all
 
 clean :
-	rm -f $(OBJS)
+	rm -f $(MANDATORY_OBJS)
 
 fclean : 
 	make clean
@@ -32,8 +43,11 @@ re :
 	make fclean
 	make all
 
-${NAME} : $(OBJS)
+${NAME} : $(MANDATORY_OBJS)
 	$(CC) $(CFLAGS) -o $@ $^
 
-$(OBJS) : %.o : %.c
+$(BONUS) : $(BONUS_OBJS)
+	$(CC) $(CFLAGS) -o $@ $^
+
+%.o : %.c
 	$(CC) $(CFLAGS) $(INCLUDE) -c $< -o $@
