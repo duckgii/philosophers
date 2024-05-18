@@ -6,46 +6,43 @@
 /*   By: yeoshin <yeoshin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 19:23:38 by yeoshin           #+#    #+#             */
-/*   Updated: 2024/05/17 21:44:29 by yeoshin          ###   ########.fr       */
+/*   Updated: 2024/05/18 10:55:43 by yeoshin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosopher.h"
 
-static void	end_eat(t_philo *philo, t_info *info);
-
-void	philo_eat(t_philo *philo, t_info *info)
+void	philo_wait_fork(t_philo *philo, t_info *info)
 {
 	int		check;
 
 	check = FALSE;
 	while (check == FALSE)
 	{
-		if (get_time(philo) - philo->start_starve > info->die_time)
+		if (get_time(philo) - philo->start_starve >= info->die_time)
 			return (philo_starve(philo, info));
-		if (check_all_eat(info) == TRUE || check_info_live(info) == DIE)
+		if (check_break(philo->info) == TRUE)
 			return ;
-		check = get_first_fork(philo);
+		check = get_one_fork(philo, philo->right_fork, philo->mutex_right);
 		usleep(100);
 	}
 	check = FALSE;
 	while (check == FALSE)
 	{
-		if (get_time(philo) - philo->start_starve > info->die_time)
+		if (get_time(philo) - philo->start_starve >= info->die_time)
 			return (philo_starve(philo, info));
-		if (check_all_eat(info) == TRUE || check_info_live(info) == DIE)
+		if (check_break(philo->info) == TRUE)
 			return ;
-		check = get_second_fork(philo);
+		check = get_one_fork(philo, philo->left_fork, philo->mutex_left);
 		usleep(100);
 	}
-	end_eat(philo, info);
 }
 
-static void	end_eat(t_philo *philo, t_info *info)
+void	philo_eat(t_philo *philo, t_info *info)
 {
 	print_eating(philo, philo->info);
 	philo->start_starve = get_time(philo);
-	if (info->eat_time > info->die_time)
+	if (info->eat_time >= info->die_time)
 	{
 		if (check_die_in_usleep(philo, info->die_time) == DIE)
 			return ;
@@ -68,7 +65,7 @@ static void	end_eat(t_philo *philo, t_info *info)
 void	philo_sleep(t_philo *philo, t_info *info)
 {
 	print_sleeping(philo, philo->info);
-	if (info->eat_time + info->sleep_time > info->die_time)
+	if (info->eat_time + info->sleep_time >= info->die_time)
 	{
 		if (check_die_in_usleep(philo, info->die_time - info->eat_time) == DIE)
 			return ;

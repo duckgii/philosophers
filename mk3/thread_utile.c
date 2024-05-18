@@ -6,7 +6,7 @@
 /*   By: yeoshin <yeoshin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 19:09:30 by yeoshin           #+#    #+#             */
-/*   Updated: 2024/05/15 14:37:28 by yeoshin          ###   ########.fr       */
+/*   Updated: 2024/05/18 10:55:50 by yeoshin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,22 @@ long	get_time(t_philo *philo)
 	gettimeofday(&mytime, NULL);
 	time = (mytime.tv_sec * 1000) + mytime.tv_usec / 1000;
 	return (time - philo->start_time);
+}
+
+int	get_one_fork(t_philo *philo, int *fork, pthread_mutex_t*mutex)
+{
+	if (mutex == NULL)
+		return (FALSE);
+	lock(mutex);
+	if (*fork == UNUSED)
+	{
+		print_take_fork(philo, philo->info);
+		*fork = USE;
+		unlock(mutex);
+		return (TRUE);
+	}
+	unlock(mutex);
+	return (FALSE);
 }
 
 void	lock(pthread_mutex_t *mutex)
@@ -37,27 +53,4 @@ void	change_fork_status(int *fork, int status, pthread_mutex_t *mutex)
 	lock(mutex);
 	*fork = status;
 	unlock(mutex);
-}
-
-int	check_die_in_usleep(t_philo *philo, long time)
-{
-	t_info	*info;
-	long	start_time;
-
-	info = philo->info;
-	start_time = get_time(philo);
-	if (check_info_live(philo->info) == DIE || \
-		check_all_eat(philo->info) == TRUE)
-		return (DIE);
-	usleep(time * 800);
-	while (TRUE)
-	{
-		if (philo->info->eat_time == get_time(philo) - start_time)
-			break ;
-		usleep(100);
-	}
-	if (check_info_live(philo->info) == DIE || \
-		check_all_eat(philo->info) == TRUE)
-		return (DIE);
-	return (ALIVE);
 }

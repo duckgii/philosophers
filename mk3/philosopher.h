@@ -6,7 +6,7 @@
 /*   By: yeoshin <yeoshin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 14:43:20 by yeoshin           #+#    #+#             */
-/*   Updated: 2024/05/17 22:00:35 by yeoshin          ###   ########.fr       */
+/*   Updated: 2024/05/18 10:55:36 by yeoshin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ int		free_philo(t_philo **philo);
 int		free_philo_threads(t_philo **philo, pthread_t **threads);
 void	*thread_function(void *arg);
 int		check_all_eat(t_info *info);
+void	philo_wait_fork(t_philo *philo, t_info *info);
 void	philo_eat(t_philo *philo, t_info *info);
 void	philo_sleep(t_philo *philo, t_info *info);
 void	philo_starve(t_philo *philo, t_info *info);
@@ -82,12 +83,12 @@ void	lock(pthread_mutex_t *mutex);
 void	unlock(pthread_mutex_t *mutex);
 void	change_fork_status(int *fork, int status, pthread_mutex_t *mutex);
 int		check_die_in_usleep(t_philo *philo, long time);
-int		get_first_fork(t_philo *philo);
-int		get_second_fork(t_philo *philo);
+int		get_one_fork(t_philo *philo, int *fork, pthread_mutex_t*mutex);
 int		check_info_live(t_info *info);
 int		philo_think(t_philo *philo, t_info *info);
 void	print_take_fork(t_philo *philo, t_info *info);
 void	print_eating(t_philo *philo, t_info *info);
 void	print_sleeping(t_philo *philo, t_info *info);
+int		check_break(t_info *info);
 
 #endif

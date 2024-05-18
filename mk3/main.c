@@ -6,7 +6,7 @@
 /*   By: yeoshin <yeoshin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 14:42:53 by yeoshin           #+#    #+#             */
-/*   Updated: 2024/05/17 15:39:13 by yeoshin          ###   ########.fr       */
+/*   Updated: 2024/05/18 10:34:47 by yeoshin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,6 @@ static int	start_threads(t_philo **philo, pthread_t **threads)
 {
 	int				idx;
 	int				ret;
-	long			time;
-	struct timeval	mytime;
 
 	idx = 0;
 	lock(philo[0]->info->mutex_live);
@@ -57,9 +55,7 @@ static int	start_threads(t_philo **philo, pthread_t **threads)
 		}
 		idx++;
 	}
-	gettimeofday(&mytime, NULL);
-	time = (mytime.tv_sec * 1000) + mytime.tv_usec / 1000;
-	philo[0]->info->start_time = time;
+	philo[0]->info->start_time = get_time(philo[0]);
 	unlock(philo[0]->info->mutex_live);
 	return (0);
 }
