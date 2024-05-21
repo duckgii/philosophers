@@ -6,7 +6,7 @@
 /*   By: yeoshin <yeoshin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 15:27:50 by yeoshin           #+#    #+#             */
-/*   Updated: 2024/05/17 15:03:55 by yeoshin          ###   ########.fr       */
+/*   Updated: 2024/05/21 07:53:51 by yeoshin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,7 @@ static t_info	*init_info(int ac, char *av[])
 	info->eat_finish_count = ft_atoi(av[1]);
 	info->live = ALIVE;
 	info->printable = PRINTABLE;
+	info->get_fork_count = ft_atoi(av[1]) / 2;
 	if (ac == 5)
 		info->must_eat_count = -1;
 	else if (ac == 6)

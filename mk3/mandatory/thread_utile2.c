@@ -6,7 +6,7 @@
 /*   By: yeoshin <yeoshin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 19:44:11 by yeoshin           #+#    #+#             */
-/*   Updated: 2024/05/18 10:43:37 by yeoshin          ###   ########.fr       */
+/*   Updated: 2024/05/21 16:00:19 by yeoshin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,44 +14,51 @@
 
 int	check_info_live(t_info *info)
 {
-	lock(info->mutex_live);
+	lock(info->mutex_info[MUTEX_LIVE]);
 	if (info->live == DIE)
 	{
-		unlock(info->mutex_live);
+		unlock(info->mutex_info[MUTEX_LIVE]);
 		return (DIE);
 	}
-	unlock(info->mutex_live);
+	unlock(info->mutex_info[MUTEX_LIVE]);
 	return (ALIVE);
 }
 
 int	check_all_eat(t_info *info)
 {
-	lock(info->mutex_all_eat);
+	lock(info->mutex_info[MUTEX_ALL_EAT]);
 	if (info->eat_finish_count == 0)
 	{
-		lock(info->mutex_printable);
+		lock(info->mutex_info[PRINT_THINK]);
+		lock(info->mutex_info[PRINT_FORK]);
+		lock(info->mutex_info[PRINT_EAT]);
+		lock(info->mutex_info[PRINT_SLEEP]);
+		lock(info->mutex_info[PRINT_DIE]);
 		info->printable = NOT_PRINTABLE;
-		unlock(info->mutex_printable);
-		unlock(info->mutex_all_eat);
+		unlock(info->mutex_info[PRINT_DIE]);
+		unlock(info->mutex_info[PRINT_SLEEP]);
+		unlock(info->mutex_info[PRINT_EAT]);
+		unlock(info->mutex_info[PRINT_FORK]);
+		unlock(info->mutex_info[PRINT_THINK]);
+		unlock(info->mutex_info[MUTEX_ALL_EAT]);
 		return (TRUE);
 	}
-	unlock(info->mutex_all_eat);
+	unlock(info->mutex_info[MUTEX_ALL_EAT]);
 	return (FALSE);
 }
 
 int	check_die_in_usleep(t_philo *philo, long time)
 {
 	t_info	*info;
-	long	start_time;
 
 	info = philo->info;
-	start_time = get_time(philo);
 	if (check_break(philo->info) == TRUE)
 		return (DIE);
 	usleep(time * 800);
+	time = time * 1000;
 	while (TRUE)
 	{
-		if (philo->info->eat_time == get_time(philo) - start_time)
+		if (time <= get_time(philo) - philo->start_print)
 			break ;
 		if (check_break(philo->info) == TRUE)
 			break ;

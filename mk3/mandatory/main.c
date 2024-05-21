@@ -6,7 +6,7 @@
 /*   By: yeoshin <yeoshin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 14:42:53 by yeoshin           #+#    #+#             */
-/*   Updated: 2024/05/18 10:34:47 by yeoshin          ###   ########.fr       */
+/*   Updated: 2024/05/21 10:32:56 by yeoshin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static int	start_threads(t_philo **philo, pthread_t **threads)
 	int				ret;
 
 	idx = 0;
-	lock(philo[0]->info->mutex_live);
+	lock(philo[0]->info->mutex_info[MUTEX_LIVE]);
 	while (idx < philo[0]->info->philo_count)
 	{
 		ret = pthread_create(threads[idx], NULL, thread_function, philo[idx]);
@@ -51,12 +51,13 @@ static int	start_threads(t_philo **philo, pthread_t **threads)
 		{
 			printf("info thread is failed\n");
 			end_threads(threads, idx);
+			unlock(philo[0]->info->mutex_info[MUTEX_LIVE]);
 			return (1);
 		}
 		idx++;
 	}
 	philo[0]->info->start_time = get_time(philo[0]);
-	unlock(philo[0]->info->mutex_live);
+	unlock(philo[0]->info->mutex_info[MUTEX_LIVE]);
 	return (0);
 }
 

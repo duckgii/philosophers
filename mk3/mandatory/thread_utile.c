@@ -6,7 +6,7 @@
 /*   By: yeoshin <yeoshin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 19:09:30 by yeoshin           #+#    #+#             */
-/*   Updated: 2024/05/18 10:55:50 by yeoshin          ###   ########.fr       */
+/*   Updated: 2024/05/21 16:44:49 by yeoshin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,11 @@ long	get_time(t_philo *philo)
 	long			time;
 
 	gettimeofday(&mytime, NULL);
-	time = (mytime.tv_sec * 1000) + mytime.tv_usec / 1000;
+	time = (mytime.tv_sec * 1000000) + mytime.tv_usec;
 	return (time - philo->start_time);
 }
 
-int	get_one_fork(t_philo *philo, int *fork, pthread_mutex_t*mutex)
+int	get_one_fork(t_philo *philo, int *fork, pthread_mutex_t *mutex)
 {
 	if (mutex == NULL)
 		return (FALSE);

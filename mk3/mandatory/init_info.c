@@ -6,7 +6,7 @@
 /*   By: yeoshin <yeoshin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 16:38:33 by yeoshin           #+#    #+#             */
-/*   Updated: 2024/05/15 16:14:00 by yeoshin          ###   ########.fr       */
+/*   Updated: 2024/05/21 09:54:52 by yeoshin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,34 +34,54 @@ t_info	*malloc_info(t_info *info, char *av[])
 	if (info->mutex_fork == NULL)
 	{
 		free(info->fork);
-		free(info->mutex_printable);
-		free(info->mutex_all_eat);
-		return (free_one(info->mutex_live));
+		return (free_malloc_mutex(info->mutex_info, 6));
 	}
 	return (info);
 }
 
 static int	init_info_mutex(t_info *info)
 {
-	info->mutex_live = malloc(sizeof(pthread_mutex_t));
-	if (info->mutex_live == NULL)
+	int		idx;
+
+	idx = 0;
+	info->mutex_info = malloc(sizeof(pthread_mutex_t *) * MUTEX_SIZE);
+	if (info->mutex_info == NULL)
 		return (FALSE);
-	info->mutex_all_eat = malloc(sizeof(pthread_mutex_t));
-	if (info->mutex_live == NULL)
+	while (idx < MUTEX_SIZE)
 	{
-		free(info->mutex_live);
-		return (FALSE);
+		info->mutex_info[idx] = malloc(sizeof(pthread_mutex_t));
+		if (info->mutex_info == NULL)
+		{
+			free_malloc_mutex(info->mutex_info, idx);
+			return (FALSE);
+		}
+		idx++;
 	}
-	info->mutex_printable = malloc(sizeof(pthread_mutex_t));
-	if (info->mutex_live == NULL)
+	while (idx > 0)
 	{
-		free(info->mutex_live);
-		free(info->mutex_all_eat);
-		return (FALSE);
+		idx--;
+		pthread_mutex_init(info->mutex_info[idx], NULL);
 	}
-	pthread_mutex_init(info->mutex_live, NULL);
-	pthread_mutex_init(info->mutex_all_eat, NULL);
-	pthread_mutex_init(info->mutex_printable, NULL);
+	//init_mutex_info(info);
+	//info->mutex_live = malloc(sizeof(pthread_mutex_t));
+	//if (info->mutex_live == NULL)
+	//	return (FALSE);
+	//info->mutex_all_eat = malloc(sizeof(pthread_mutex_t));
+	//if (info->mutex_live == NULL)
+	//{
+	//	free(info->mutex_live);
+	//	return (FALSE);
+	//}
+	//info->mutex_printable = malloc(sizeof(pthread_mutex_t));
+	//if (info->mutex_live == NULL)
+	//{
+	//	free(info->mutex_live);
+	//	free(info->mutex_all_eat);
+	//	return (FALSE);
+	//}
+	//pthread_mutex_init(info->mutex_live, NULL);
+	//pthread_mutex_init(info->mutex_all_eat, NULL);
+	//pthread_mutex_init(info->mutex_printable, NULL);
 	return (TRUE);
 }
 
@@ -84,3 +104,14 @@ static pthread_mutex_t	**malloc_mutex_fork(int count)
 	}
 	return (ret);
 }
+
+//static void	init_mutex_info(t_info *info)
+//{
+//	info->mutex_info[PRINT_THINK] = PRINTABLE;
+//	info->mutex_info[PRINT_FORK] = PRINTABLE;
+//	info->mutex_info[PRINT_EAT] = PRINTABLE;
+//	info->mutex_info[PRINT_SLEEP] = PRINTABLE;
+//	info->mutex_info[MUTEX_LIVE] = ALIVE;
+//	info->mutex_info[MUTEX_ALL_EAT] = FALSE;
+//	info->mutex_info[MUTEX_START] = FALSE;
+//}

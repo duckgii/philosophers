@@ -6,7 +6,7 @@
 /*   By: yeoshin <yeoshin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/07 11:09:58 by yeoshin           #+#    #+#             */
-/*   Updated: 2024/05/14 20:53:12 by yeoshin          ###   ########.fr       */
+/*   Updated: 2024/05/21 10:00:11 by yeoshin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	ft_strncmp(const char *s1, const char *s2, size_t n)
 			return (str1[idx] - str2[idx]);
 		else if (str1[idx] == '\0')
 			break ;
-		idx ++;
+		idx++;
 	}
 	return (0);
 }
