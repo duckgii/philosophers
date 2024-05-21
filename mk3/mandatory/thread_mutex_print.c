@@ -6,7 +6,7 @@
 /*   By: yeoshin <yeoshin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 00:12:43 by yeoshin           #+#    #+#             */
-/*   Updated: 2024/05/21 16:45:20 by yeoshin          ###   ########.fr       */
+/*   Updated: 2024/05/21 17:19:27 by yeoshin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@ void	print_take_fork(t_philo *philo, t_info *info)
 
 void	print_eating(t_philo *philo, t_info *info)
 {
+	if ((get_time(philo) - philo->start_starve) / 1000 >= info->die_time)
+		return (philo_starve(philo, info));
 	lock(info->mutex_info[PRINT_EAT]);
 	if (info->printable == PRINTABLE)
 	{

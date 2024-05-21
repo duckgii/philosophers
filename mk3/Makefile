@@ -1,6 +1,6 @@
 NAME = philo
 BONUS = philo_bonus
-CFLAGS = -Wall -Wextra -Werror -O3
+CFLAGS = -Wall -Wextra -Werror
 
 MANDATORY_SRCS = main.c \
 		free.c \
