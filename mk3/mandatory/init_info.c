@@ -6,7 +6,7 @@
 /*   By: yeoshin <yeoshin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 16:38:33 by yeoshin           #+#    #+#             */
-/*   Updated: 2024/05/25 15:27:08 by yeoshin          ###   ########.fr       */
+/*   Updated: 2024/05/25 16:58:44 by yeoshin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,14 +84,3 @@ static pthread_mutex_t	**malloc_mutex_fork(int count)
 	}
 	return (ret);
 }
-
-//static void	init_mutex_info(t_info *info)
-//{
-//	info->mutex_info[PRINT_THINK] = PRINTABLE;
-//	info->mutex_info[PRINT_FORK] = PRINTABLE;
-//	info->mutex_info[PRINT_EAT] = PRINTABLE;
-//	info->mutex_info[PRINT_SLEEP] = PRINTABLE;
-//	info->mutex_info[MUTEX_LIVE] = ALIVE;
-//	info->mutex_info[MUTEX_ALL_EAT] = FALSE;
-//	info->mutex_info[MUTEX_START] = FALSE;
-//}
