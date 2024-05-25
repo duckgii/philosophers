@@ -20,7 +20,13 @@ MANDATORY_DIR = ./mandatory/
 MANDATORY = $(addprefix $(MANDATORY_DIR),$(MANDATORY_SRCS))
 MANDATORY_OBJS = $(MANDATORY:.c=.o)
 
-BONUS_SRCS = main_bonus.c
+BONUS_SRCS = main_bonus.c \
+			parse.c \
+			utile_bonus.c \
+			child_main_bonus.c \
+			child_status_bonus.c \
+			child_utile_bonus.c \
+			ft_strncmp_bonus.c
 
 BONUS_DIR = ./bonus/
 BONUS_TEMP = $(addprefix $(BONUS_DIR),$(BONUS_SRCS))
@@ -34,10 +40,12 @@ make : all
 
 clean :
 	rm -f $(MANDATORY_OBJS)
+	rm -f $(BONUS_OBJS)
 
 fclean : 
 	make clean
 	rm -f $(NAME)
+	rm -f $(BONUS)
 
 re :
 	make fclean

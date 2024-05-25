@@ -6,7 +6,7 @@
 /*   By: yeoshin <yeoshin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 10:58:11 by yeoshin           #+#    #+#             */
-/*   Updated: 2024/05/26 01:34:59 by yeoshin          ###   ########.fr       */
+/*   Updated: 2024/05/26 03:58:57 by yeoshin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,9 @@ int	main(int ac, char *av[])
 	t_info		*info;
 
 	check_arg(ac, av);
-	philo = parse_philo(ac, av);
+	philo = parse_philo(av);
 	info = init_info(ac, av);
 	start_process(philo, info);
-	exit(0);
 }
 
 static void	start_process(t_philo *philo, t_info *info)
@@ -43,9 +42,10 @@ static void	start_process(t_philo *philo, t_info *info)
 	{
 		philo->philo_num = idx + 1;
 		pid[idx] = fork();
-		if (pid == 0)
+		if (pid[idx] == 0)
 			child_main(philo, info);
-		idx++;
+		else
+			idx++;
 	}
 	if (pid > 0)
 		wait_process(philo, info);
@@ -61,7 +61,7 @@ static void	wait_process(t_philo *philo, t_info *info)
 	flag = 0;
 	if (info->must_eat_count == -1)
 		flag = 1;
-	while (idx < info->philo_count + 1)
+	while (idx < info->philo_count)
 	{
 		sem_wait(philo->all_eat);
 		idx++;
@@ -78,6 +78,14 @@ static void	end_process(t_philo	*philo, int	*pid, int count)
 		kill(pid[idx], 1);
 		idx++;
 	}
+	sem_unlink("all_eat");
+	sem_unlink("fork");
+	sem_unlink("print");
+	sem_unlink("start_wait");
+	sem_close(philo->all_eat);
+	sem_close(philo->fork);
+	sem_close(philo->print);
+	sem_close(philo->start_wait);
 }
 
 static void	check_arg(int ac, char *av[])

@@ -6,7 +6,7 @@
 /*   By: yeoshin <yeoshin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/26 00:20:38 by yeoshin           #+#    #+#             */
-/*   Updated: 2024/05/26 02:05:02 by yeoshin          ###   ########.fr       */
+/*   Updated: 2024/05/26 03:59:53 by yeoshin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	philo_starve(t_philo *philo, t_info *info)
 		sem_wait(philo->print);
 		count++;
 	}
-	printf("%d %d died\n", get_time(philo) / 1000, \
+	printf("%ld %d died\n", get_time(philo) / 1000, \
 	philo->philo_num);
 	while (count > 0)
 	{
@@ -44,9 +44,14 @@ void	philo_eat(t_philo *philo, t_info *info)
 		philo_starve(philo, info);
 	}
 	exact_usleep(philo, info->eat_time);
+	sem_post(philo->fork);
+	sem_post(philo->fork);
 	(philo->eat_count)++;
 	if (philo->eat_count == info->must_eat_count)
+	{
+		//printf("%d!!!!!!!!!!!!!!!!\n", philo->philo_num);
 		sem_post(philo->all_eat);
+	}
 }
 
 void	philo_sleep(t_philo *philo, t_info *info)

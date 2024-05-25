@@ -6,23 +6,21 @@
 /*   By: yeoshin <yeoshin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 16:26:56 by yeoshin           #+#    #+#             */
-/*   Updated: 2024/05/26 02:13:48 by yeoshin          ###   ########.fr       */
+/*   Updated: 2024/05/26 03:38:26 by yeoshin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosopher_bonus.h"
 
 static void		make_one_philo(t_philo *philo, int count);
-static t_info	*init_info(int ac, char *av[]);
 
-t_philo	*parse_philo(int ac, char *av[])
+t_philo	*parse_philo(char *av[])
 {
 	t_philo	*ret;
 	int		count;
-	t_info	*info;
 
 	count = ft_atoi(av[1]);
-	ret = ft_malloc(sizeof(t_philo *) * count);
+	ret = ft_malloc(sizeof(t_philo));
 	make_one_philo(ret, count);
 	return (ret);
 }
@@ -34,14 +32,20 @@ static void	make_one_philo(t_philo *philo, int count)
 	philo->start_starve = 0;
 	philo->start_print = 0;
 	philo->philo_num = 0;
-	philo->fork = ft_malloc(sizeof(sem_t));
-	philo->fork = sem_open("fork", O_CREAT, 0600, count);
-	philo->print = ft_malloc(sizeof(sem_t));
-	philo->print = sem_open("print", O_CREAT, 0600, count);
-	philo->all_eat = ft_malloc(sizeof(sem_t));
-	philo->all_eat = sem_open("all_eat", O_CREAT, 0600, 0);
-	philo->start_wait = ft_malloc(sizeof(sem_t));
-	philo->start_wait = sem_open("start_wait", O_CREAT, 0600, 0);
+	sem_unlink("all_eat");
+	sem_unlink("fork");
+	sem_unlink("print");
+	sem_unlink("start_wait");
+	philo->fork = sem_open("fork", O_CREAT, 0777, count);
+	philo->print = sem_open("print", O_CREAT, 0777, count);
+	philo->all_eat = sem_open("all_eat", O_CREAT, 0777, 0);
+	philo->start_wait = sem_open("start_wait", O_CREAT, 0777, 0);
+	if (philo->fork == SEM_FAILED || philo->print == SEM_FAILED || \
+	philo->all_eat == SEM_FAILED || philo->start_wait == SEM_FAILED)
+	{
+		perror("sem_open error");
+		exit(1);
+	}
 }
 
 t_info	*init_info(int ac, char *av[])

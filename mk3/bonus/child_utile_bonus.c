@@ -6,7 +6,7 @@
 /*   By: yeoshin <yeoshin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/26 01:44:26 by yeoshin           #+#    #+#             */
-/*   Updated: 2024/05/26 02:04:54 by yeoshin          ###   ########.fr       */
+/*   Updated: 2024/05/26 03:42:31 by yeoshin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,8 @@ void	print_philo_eat(t_philo *philo)
 void	print_philo_sleep(t_philo *philo)
 {
 	sem_wait(philo->print);
-	printf("%ld %d is sleeping\n", get_time(philo) / 1000, \
+	philo->start_print = get_time(philo);
+	printf("%ld %d is sleeping\n", philo->start_print / 1000, \
 	philo->philo_num);
 	sem_post(philo->print);
 }

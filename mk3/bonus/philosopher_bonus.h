@@ -6,7 +6,7 @@
 /*   By: yeoshin <yeoshin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 10:59:01 by yeoshin           #+#    #+#             */
-/*   Updated: 2024/05/26 02:13:43 by yeoshin          ###   ########.fr       */
+/*   Updated: 2024/05/26 03:22:39 by yeoshin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include <unistd.h>
 # include <signal.h>
 # include <semaphore.h>
+# include <sys/stat.h>
 
 typedef struct s_info {
 	int		die_time;
@@ -57,7 +58,7 @@ enum {
 
 void	*ft_malloc(int size);
 int		ft_atoi(const char *str);
-t_philo	*parse_philo(int ac, char *av[]);
+t_philo	*parse_philo(char *av[]);
 t_info	*init_info(int ac, char *av[]);
 void	child_main(t_philo *philo, t_info *info);
 void	philo_starve(t_philo *philo, t_info *info);
@@ -67,6 +68,7 @@ void	philo_think(t_philo *philo);
 void	philo_wait_fork(t_philo *philo, t_info *info);
 void	print_get_fork(t_philo *philo);
 void	print_philo_eat(t_philo *philo);
+void	print_philo_sleep(t_philo *philo);
 void	exact_usleep(t_philo *philo, int time);
 long	get_time(t_philo *philo);
 
