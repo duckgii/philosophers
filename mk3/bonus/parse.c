@@ -6,7 +6,7 @@
 /*   By: yeoshin <yeoshin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 16:26:56 by yeoshin           #+#    #+#             */
-/*   Updated: 2024/05/25 21:11:09 by yeoshin          ###   ########.fr       */
+/*   Updated: 2024/05/26 02:13:48 by yeoshin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static void	make_one_philo(t_philo *philo, int count)
 	philo->print = ft_malloc(sizeof(sem_t));
 	philo->print = sem_open("print", O_CREAT, 0600, count);
 	philo->all_eat = ft_malloc(sizeof(sem_t));
-	philo->all_eat = sem_open("print", O_CREAT, 0600, 0);
+	philo->all_eat = sem_open("all_eat", O_CREAT, 0600, 0);
 	philo->start_wait = ft_malloc(sizeof(sem_t));
 	philo->start_wait = sem_open("start_wait", O_CREAT, 0600, 0);
 }
@@ -56,7 +56,6 @@ t_info	*init_info(int ac, char *av[])
 	info->eat_finish_count = ft_atoi(av[1]);
 	info->live = ALIVE;
 	info->printable = PRINTABLE;
-	info->get_fork_count = ft_atoi(av[1]) / 2;
 	if (ac == 5)
 		info->must_eat_count = -1;
 	else if (ac == 6)
