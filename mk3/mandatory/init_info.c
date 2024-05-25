@@ -6,7 +6,7 @@
 /*   By: yeoshin <yeoshin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 16:38:33 by yeoshin           #+#    #+#             */
-/*   Updated: 2024/05/21 09:54:52 by yeoshin          ###   ########.fr       */
+/*   Updated: 2024/05/25 15:27:08 by yeoshin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,26 +62,6 @@ static int	init_info_mutex(t_info *info)
 		idx--;
 		pthread_mutex_init(info->mutex_info[idx], NULL);
 	}
-	//init_mutex_info(info);
-	//info->mutex_live = malloc(sizeof(pthread_mutex_t));
-	//if (info->mutex_live == NULL)
-	//	return (FALSE);
-	//info->mutex_all_eat = malloc(sizeof(pthread_mutex_t));
-	//if (info->mutex_live == NULL)
-	//{
-	//	free(info->mutex_live);
-	//	return (FALSE);
-	//}
-	//info->mutex_printable = malloc(sizeof(pthread_mutex_t));
-	//if (info->mutex_live == NULL)
-	//{
-	//	free(info->mutex_live);
-	//	free(info->mutex_all_eat);
-	//	return (FALSE);
-	//}
-	//pthread_mutex_init(info->mutex_live, NULL);
-	//pthread_mutex_init(info->mutex_all_eat, NULL);
-	//pthread_mutex_init(info->mutex_printable, NULL);
 	return (TRUE);
 }
 

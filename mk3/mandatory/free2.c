@@ -6,7 +6,7 @@
 /*   By: yeoshin <yeoshin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 18:30:11 by yeoshin           #+#    #+#             */
-/*   Updated: 2024/05/21 09:53:52 by yeoshin          ###   ########.fr       */
+/*   Updated: 2024/05/25 15:26:55 by yeoshin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,9 +37,6 @@ static void	free_info(t_info *info, int count)
 	idx = 0;
 	free(info->fork);
 	free_malloc_mutex(info->mutex_info, MUTEX_SIZE);
-	//free(info->mutex_live);
-	//free(info->mutex_all_eat);
-	//free(info->mutex_printable);
 	while (idx < count)
 	{
 		free(info->mutex_fork[idx]);

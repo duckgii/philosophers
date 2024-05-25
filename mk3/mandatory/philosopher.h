@@ -6,7 +6,7 @@
 /*   By: yeoshin <yeoshin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 14:43:20 by yeoshin           #+#    #+#             */
-/*   Updated: 2024/05/21 16:45:05 by yeoshin          ###   ########.fr       */
+/*   Updated: 2024/05/25 15:27:34 by yeoshin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,6 @@ typedef struct s_info {
 	long			start_time;
 	pthread_mutex_t	**mutex_fork;
 	pthread_mutex_t	**mutex_info;
-	//pthread_mutex_t	*mutex_live;
-	//pthread_mutex_t	*mutex_all_eat;
-	//pthread_mutex_t	*mutex_printable;
 }	t_info;
 
 typedef struct s_philo{

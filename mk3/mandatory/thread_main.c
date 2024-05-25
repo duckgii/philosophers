@@ -6,7 +6,7 @@
 /*   By: yeoshin <yeoshin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 19:04:08 by yeoshin           #+#    #+#             */
-/*   Updated: 2024/05/21 16:38:46 by yeoshin          ###   ########.fr       */
+/*   Updated: 2024/05/25 15:27:43 by yeoshin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,6 @@ static void	up_fork_count(t_info *info)
 	info->get_fork_count--;
 	unlock(info->mutex_info[MUTEX_START]);
 }
-
 
 static void	standby(t_philo *philo)
 {

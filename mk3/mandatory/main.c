@@ -6,7 +6,7 @@
 /*   By: yeoshin <yeoshin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 14:42:53 by yeoshin           #+#    #+#             */
-/*   Updated: 2024/05/21 17:22:34 by yeoshin          ###   ########.fr       */
+/*   Updated: 2024/05/25 15:27:26 by yeoshin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,8 +111,8 @@ static int	check_arg(int ac, char *av[])
 		flag = FALSE;
 	if (flag == TRUE)
 	{
-		if (ft_atoi(av[1]) <= 0 || ft_atoi(av[2]) <= 0 || ft_atoi(av[3]) <= 0 || \
-			ft_atoi(av[4]) <= 0)
+		if (ft_atoi(av[1]) <= 0 || ft_atoi(av[2]) <= 0 \
+		|| ft_atoi(av[3]) <= 0 || ft_atoi(av[4]) <= 0)
 			flag = FALSE;
 		if (ac == 6)
 		{
