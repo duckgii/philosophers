@@ -6,7 +6,7 @@
 /*   By: yeoshin <yeoshin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 16:26:56 by yeoshin           #+#    #+#             */
-/*   Updated: 2024/05/26 03:38:26 by yeoshin          ###   ########.fr       */
+/*   Updated: 2024/05/26 05:04:49 by yeoshin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static void	make_one_philo(t_philo *philo, int count)
 	sem_unlink("print");
 	sem_unlink("start_wait");
 	philo->fork = sem_open("fork", O_CREAT, 0777, count);
-	philo->print = sem_open("print", O_CREAT, 0777, count);
+	philo->print = sem_open("print", O_CREAT, 0777, 1);
 	philo->all_eat = sem_open("all_eat", O_CREAT, 0777, 0);
 	philo->start_wait = sem_open("start_wait", O_CREAT, 0777, 0);
 	if (philo->fork == SEM_FAILED || philo->print == SEM_FAILED || \

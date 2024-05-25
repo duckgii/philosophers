@@ -6,7 +6,7 @@
 /*   By: yeoshin <yeoshin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 10:58:11 by yeoshin           #+#    #+#             */
-/*   Updated: 2024/05/26 03:58:57 by yeoshin          ###   ########.fr       */
+/*   Updated: 2024/05/26 04:58:05 by yeoshin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,11 @@ static void	start_process(t_philo *philo, t_info *info)
 		else
 			idx++;
 	}
+	while (idx > 0)
+	{
+		idx--;
+		sem_post(philo->start_wait);
+	}
 	if (pid > 0)
 		wait_process(philo, info);
 	end_process(philo, pid, info->philo_count);
@@ -61,7 +66,7 @@ static void	wait_process(t_philo *philo, t_info *info)
 	flag = 0;
 	if (info->must_eat_count == -1)
 		flag = 1;
-	while (idx < info->philo_count)
+	while (idx < info->philo_count + flag)
 	{
 		sem_wait(philo->all_eat);
 		idx++;
