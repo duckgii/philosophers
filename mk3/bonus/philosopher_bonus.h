@@ -6,7 +6,7 @@
 /*   By: yeoshin <yeoshin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 10:59:01 by yeoshin           #+#    #+#             */
-/*   Updated: 2024/05/26 13:34:19 by yeoshin          ###   ########.fr       */
+/*   Updated: 2024/05/26 14:39:24 by yeoshin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include <stdio.h>
 # include <stdlib.h>
+# include <pthread.h>
 # include <sys/time.h>
 # include <unistd.h>
 # include <signal.h>
@@ -45,6 +46,11 @@ typedef struct s_philo{
 	sem_t	*print;
 	sem_t	*all_eat;
 }	t_philo;
+
+typedef struct s_thread{
+	t_philo	*philo;
+	t_info	*info;
+}	t_thread;
 
 enum {
 	FALSE = 0,

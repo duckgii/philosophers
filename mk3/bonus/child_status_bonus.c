@@ -6,7 +6,7 @@
 /*   By: yeoshin <yeoshin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/26 00:20:38 by yeoshin           #+#    #+#             */
-/*   Updated: 2024/05/26 11:37:29 by yeoshin          ###   ########.fr       */
+/*   Updated: 2024/05/26 16:13:39 by yeoshin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,6 @@ void	philo_starve(t_philo *philo, t_info *info)
 
 void	philo_eat(t_philo *philo, t_info *info)
 {
-	if ((get_time(philo) - philo->start_starve) / 1000 >= info->die_time)
-		philo_starve(philo, info);
 	print_philo_eat(philo);
 	if (info->eat_time >= info->die_time)
 	{
