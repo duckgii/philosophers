@@ -6,13 +6,14 @@
 /*   By: yeoshin <yeoshin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 19:39:40 by yeoshin           #+#    #+#             */
-/*   Updated: 2024/05/26 11:40:51 by yeoshin          ###   ########.fr       */
+/*   Updated: 2024/05/26 13:46:28 by yeoshin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosopher_bonus.h"
 
 static void	stand_by(t_philo *philo, t_info *info);
+static void	exact_first_usleep(t_philo *philo, long time);
 
 void	child_main(t_philo *philo, t_info *info)
 {
@@ -20,6 +21,8 @@ void	child_main(t_philo *philo, t_info *info)
 
 	check_start = 0;
 	sem_wait(philo->start_wait);
+	exact_first_usleep(philo, philo->adjust_time);
+	philo->start_time += philo->adjust_time;
 	if (philo->philo_num % 2 != 0 && philo->philo_num != info->philo_count)
 		stand_by(philo, info);
 	while (TRUE)
@@ -51,4 +54,16 @@ static void	stand_by(t_philo *philo, t_info *info)
 	idx = 0;
 	sem_wait(philo->start_wait);
 	usleep(info->eat_time * 500);
+}
+
+static void	exact_first_usleep(t_philo *philo, long time)
+{
+	time -= get_time(philo);
+	usleep(time * (0.8));
+	while (TRUE)
+	{
+		if (time <= get_time(philo) - philo->start_print)
+			break ;
+		usleep(100);
+	}
 }

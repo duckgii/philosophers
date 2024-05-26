@@ -6,7 +6,7 @@
 /*   By: yeoshin <yeoshin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 10:59:01 by yeoshin           #+#    #+#             */
-/*   Updated: 2024/05/26 11:25:14 by yeoshin          ###   ########.fr       */
+/*   Updated: 2024/05/26 13:34:19 by yeoshin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ typedef struct s_philo{
 	long	start_time;
 	long	start_starve;
 	long	start_print;
+	long	adjust_time;
 	int		eat_count;
 	int		philo_num;
 	sem_t	*fork;

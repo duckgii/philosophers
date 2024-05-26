@@ -6,7 +6,7 @@
 /*   By: yeoshin <yeoshin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 10:58:11 by yeoshin           #+#    #+#             */
-/*   Updated: 2024/05/26 04:58:05 by yeoshin          ###   ########.fr       */
+/*   Updated: 2024/05/26 13:40:21 by yeoshin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,10 @@ static void	start_process(t_philo *philo, t_info *info)
 	idx = 0;
 	pid = ft_malloc(sizeof(int) * info->philo_count);
 	philo->start_time = get_time(philo);
-	philo->start_starve = philo->start_time;
-	philo->start_print = philo->start_time;
+	philo->adjust_time = 100 * (info->philo_count + 50);
 	while (idx < info->philo_count)
 	{
+		printf("ad : %ld\n", philo->adjust_time);
 		philo->philo_num = idx + 1;
 		pid[idx] = fork();
 		if (pid[idx] == 0)
