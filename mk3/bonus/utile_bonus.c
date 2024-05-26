@@ -6,7 +6,7 @@
 /*   By: yeoshin <yeoshin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 16:27:43 by yeoshin           #+#    #+#             */
-/*   Updated: 2024/05/26 02:30:45 by yeoshin          ###   ########.fr       */
+/*   Updated: 2024/05/26 11:41:18 by yeoshin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static int	check_long(const char *str, int flag);
 static int	len_use(const char *string);
-int		ft_strncmp(const char *s1, const char *s2, size_t n);
+int			ft_strncmp(const char *s1, const char *s2, size_t n);
 
 void	*ft_malloc(int size)
 {
@@ -95,4 +95,3 @@ static int	check_long(const char *str, int flag)
 		return (-1);
 	return (1);
 }
-

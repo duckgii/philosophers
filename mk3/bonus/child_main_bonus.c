@@ -6,7 +6,7 @@
 /*   By: yeoshin <yeoshin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 19:39:40 by yeoshin           #+#    #+#             */
-/*   Updated: 2024/05/26 05:03:57 by yeoshin          ###   ########.fr       */
+/*   Updated: 2024/05/26 11:40:51 by yeoshin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,6 @@ static void	stand_by(t_philo *philo, t_info *info)
 		return ;
 	}
 	count = info->philo_count / 2;
-	//printf("count : %d\n", count);
 	idx = 0;
 	sem_wait(philo->start_wait);
 	usleep(info->eat_time * 500);
