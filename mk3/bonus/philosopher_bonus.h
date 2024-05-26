@@ -6,7 +6,7 @@
 /*   By: yeoshin <yeoshin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 10:59:01 by yeoshin           #+#    #+#             */
-/*   Updated: 2024/05/26 03:22:39 by yeoshin          ###   ########.fr       */
+/*   Updated: 2024/05/26 11:25:14 by yeoshin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ void	philo_wait_fork(t_philo *philo, t_info *info);
 void	print_get_fork(t_philo *philo);
 void	print_philo_eat(t_philo *philo);
 void	print_philo_sleep(t_philo *philo);
+void	print_philo_died(t_philo *philo);
 void	exact_usleep(t_philo *philo, int time);
 long	get_time(t_philo *philo);
 

@@ -26,7 +26,8 @@ BONUS_SRCS = main_bonus.c \
 			child_main_bonus.c \
 			child_status_bonus.c \
 			child_utile_bonus.c \
-			ft_strncmp_bonus.c
+			ft_strncmp_bonus.c \
+			child_print_bonus.c
 
 BONUS_DIR = ./bonus/
 BONUS_TEMP = $(addprefix $(BONUS_DIR),$(BONUS_SRCS))
