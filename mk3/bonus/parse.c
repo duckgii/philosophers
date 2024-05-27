@@ -32,10 +32,10 @@ static void	make_one_philo(t_philo *philo, int count)
 	philo->start_starve = 0;
 	philo->start_print = 0;
 	philo->philo_num = 0;
-	philo->fork = sem_open("fork", O_CREAT, 0777, count);
-	philo->print = sem_open("print", O_CREAT, 0777, 1);
-	philo->all_eat = sem_open("all_eat", O_CREAT, 0777, 0);
-	philo->start_wait = sem_open("start_wait", O_CREAT, 0777, 0);
+	philo->fork = sem_open("fork", O_CREAT, 0600, count);
+	philo->print = sem_open("print", O_CREAT, 0600, 1);
+	philo->all_eat = sem_open("all_eat", O_CREAT, 0600, 0);
+	philo->start_wait = sem_open("start_wait", O_CREAT, 0600, 0);
 	sem_unlink("all_eat");
 	sem_unlink("fork");
 	sem_unlink("print");
