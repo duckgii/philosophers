@@ -6,7 +6,7 @@
 /*   By: yeoshin <yeoshin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 14:49:37 by yeoshin           #+#    #+#             */
-/*   Updated: 2024/05/14 18:36:35 by yeoshin          ###   ########.fr       */
+/*   Updated: 2024/05/26 16:50:53 by yeoshin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,8 @@ void	*free_malloc_mutex(pthread_mutex_t **ret, int count)
 	idx = 0;
 	while (idx < count)
 	{
+		unlock(ret[idx]);
+		pthread_mutex_destroy(ret[idx]);
 		free(ret[idx]);
 		idx++;
 	}

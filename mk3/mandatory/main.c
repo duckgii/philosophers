@@ -6,7 +6,7 @@
 /*   By: yeoshin <yeoshin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 14:42:53 by yeoshin           #+#    #+#             */
-/*   Updated: 2024/05/25 15:27:26 by yeoshin          ###   ########.fr       */
+/*   Updated: 2024/05/27 13:11:17 by yeoshin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ int	main(int ac, char *av[])
 		return (free_philo_threads(philo, threads));
 	if (end_threads(threads, ft_atoi(av[1])) != 0)
 		return (free_philo_threads(philo, threads));
+	free_philo_threads(philo, threads);
 	return (0);
 }
 
