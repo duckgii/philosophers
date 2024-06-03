@@ -2,7 +2,7 @@ NAME = philo_bonus
 CFLAGS = -Wall -Wextra -Werror
 
 BONUS_SRCS = main_bonus.c \
-			parse.c \
+			parse_bonus.c \
 			utile_bonus.c \
 			child_main_bonus.c \
 			child_status_bonus.c \
